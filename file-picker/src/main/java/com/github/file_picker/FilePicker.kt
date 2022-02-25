@@ -8,15 +8,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.github.file_picker.adapter.ItemAdapter
+import com.github.file_picker.model.Media
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.github.file_picker.adapter.ItemAdapter
 import ir.one_developer.file_picker.databinding.FilePickerBinding
-import com.github.file_picker.model.Media
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -195,12 +196,12 @@ class FilePicker : BottomSheetDialogFragment() {
     companion object {
         private const val TAG = "FilePicker"
         const val DEFAULT_LIMIT_COUNT = 1
-        private const val DEFAULT_SPAN_COUNT = 2
-        private const val DEFAULT_CANCELABLE = true
-        private const val DEFAULT_TITLE = "Choose File"
-        private const val DEFAULT_SUBMIT_TEXT = "Submit"
-        private val DEFAULT_FILE_TYPE = FileType.IMAGE
-        private val DEFAULT_LIST_DIRECTION = ListDirection.LTR
+        const val DEFAULT_SPAN_COUNT = 2
+        const val DEFAULT_CANCELABLE = true
+        const val DEFAULT_TITLE = "Choose File"
+        const val DEFAULT_SUBMIT_TEXT = "Submit"
+        val DEFAULT_FILE_TYPE = FileType.IMAGE
+        val DEFAULT_LIST_DIRECTION = ListDirection.LTR
 
         private const val TITLE_KEY = "title"
         private const val FILE_TYPE_KEY = "file.type"
@@ -242,4 +243,56 @@ class FilePicker : BottomSheetDialogFragment() {
         }
     }
 
+}
+
+fun AppCompatActivity.showFilePicker(
+    title: String = FilePicker.DEFAULT_TITLE,
+    submitText: String = FilePicker.DEFAULT_SUBMIT_TEXT,
+    fileType: FileType = FilePicker.DEFAULT_FILE_TYPE,
+    listDirection: ListDirection = FilePicker.DEFAULT_LIST_DIRECTION,
+    cancellable: Boolean = FilePicker.DEFAULT_CANCELABLE,
+    gridSpanCount: Int = FilePicker.DEFAULT_SPAN_COUNT,
+    limitItemSelection: Int = FilePicker.DEFAULT_LIMIT_COUNT,
+    selectedFiles: ArrayList<Media> = arrayListOf(),
+    selectedFilesListener: (files: List<Media>) -> Unit,
+) {
+    FilePicker.show(
+        activity = this,
+        title = title,
+        submitText = submitText,
+        fileType = fileType,
+        listDirection = listDirection,
+        cancellable = cancellable,
+        gridSpanCount = gridSpanCount,
+        limitItemSelection = limitItemSelection,
+        selectedFiles = selectedFiles,
+        selectedFilesListener = selectedFilesListener
+    )
+}
+
+fun Fragment.showFilePicker(
+    title: String = FilePicker.DEFAULT_TITLE,
+    submitText: String = FilePicker.DEFAULT_SUBMIT_TEXT,
+    fileType: FileType = FilePicker.DEFAULT_FILE_TYPE,
+    listDirection: ListDirection = FilePicker.DEFAULT_LIST_DIRECTION,
+    cancellable: Boolean = FilePicker.DEFAULT_CANCELABLE,
+    gridSpanCount: Int = FilePicker.DEFAULT_SPAN_COUNT,
+    limitItemSelection: Int = FilePicker.DEFAULT_LIMIT_COUNT,
+    selectedFiles: ArrayList<Media> = arrayListOf(),
+    selectedFilesListener: (files: List<Media>) -> Unit,
+) {
+    if (requireActivity() !is AppCompatActivity) {
+        throw IllegalAccessException("Fragment host must be extend AppCompatActivity")
+    }
+    (requireActivity() as AppCompatActivity).showFilePicker(
+        title = title,
+        submitText = submitText,
+        fileType = fileType,
+        listDirection = listDirection,
+        cancellable = cancellable,
+        gridSpanCount = gridSpanCount,
+        limitItemSelection = limitItemSelection,
+        selectedFiles = selectedFiles,
+        selectedFilesListener = selectedFilesListener
+    )
 }
