@@ -35,7 +35,7 @@ Step 2. Add the dependency
 
 simple usage in activity and fragment with extension function:
 
-#Example
+# Example
 
         showFilePicker { 
             
