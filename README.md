@@ -1,6 +1,6 @@
 [![](https://jitpack.io/v/MajidArabi/FilePicker.svg)](https://jitpack.io/#MajidArabi/FilePicker)
 
-# FilePicker
+# Android FilePicker
 
 Add it in your root build.gradle at the end of repositories:
 
@@ -18,7 +18,7 @@ Step 2. Add the dependency
 	}
 	
 
-# Usage
+## Usage
 	
 	FilePicker.show(
 	    activity = this,
@@ -30,13 +30,13 @@ Step 2. Add the dependency
 	    listDirection = ListDirection.RTL,
 	    fileType = if (video) FileType.VIDEO else FileType.IMAGE,
 	) {
-	    Log.e("TAG", "$it")
+	    // Do something here with selected files
 	}
 
-simple usage in activity and fragment with extension function:
+simple usage in activity and fragment with kotlin extension function:
 
-# Example
+## Example
 
         showFilePicker { 
-            
+            // Do something here with selected files
         }
