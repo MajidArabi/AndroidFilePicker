@@ -41,7 +41,6 @@ simple usage in activity and fragment with kotlin extension function:
             // Do something here with selected files
         }
 	
-<img src="https://github.com/MajidArabi/FilePicker/blob/master/Screenshot_20220225100ng" width="320"/>	
-
-![images](/Screenshot_20220225-233059.png)
-![videos](/Screenshot_20220225-233013.png)
+<img src="https://github.com/MajidArabi/FilePicker/blob/master/Screenshot_20220225-232932.png" width="250" />
+<img src="https://github.com/MajidArabi/FilePicker/blob/master/Screenshot_20220225-233059.png" width="250" />
+<img src="https://github.com/MajidArabi/FilePicker/blob/master/Screenshot_20220225-233013.png" width="250" />
