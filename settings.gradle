@@ -1,0 +1,22 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        maven { url 'https://gradle.iranrepo.ir' }
+        maven { url 'https://maven.google.com' }
+        google()
+        mavenCentral()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        gradlePluginPortal()
+        maven { url 'https://gradle.iranrepo.ir' }
+        maven { url 'https://maven.google.com' }
+        google()
+        mavenCentral()
+    }
+}
+rootProject.name = "FilePickerLibrary"
+include ':app'
+include ':file-picker'
