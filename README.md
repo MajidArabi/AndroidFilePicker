@@ -17,13 +17,24 @@ Step 2. Add the dependency
 	
 
 # Usage
+	
+	FilePicker.show(
+	    activity = this,
+	    gridSpanCount = 3,
+	    cancellable = false,
+	    limitItemSelection = 3,
+	    title = "Select Media",
+	    submitText = "Submit Files",
+	    listDirection = ListDirection.RTL,
+	    fileType = if (video) FileType.VIDEO else FileType.IMAGE,
+	) {
+	    Log.e("TAG", "$it")
+	}
 
-  FilePicker.show(
-                activity = this,
-                gridSpanCount = 3,
-                limitItemSelection = 3,
-                fileType =  FileType.VIDEO or FileType.IMAGE,
-                listDirection = ListDirection.RTL or ListDirection.LTR,
-            ) { selectedFiles ->
-                Log.e("TAG", "$selectedFiles")
-            }
+simple usage in activity and fragment with extension function:
+
+#Example
+
+        showFilePicker { 
+            
+        }
