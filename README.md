@@ -14,3 +14,16 @@ Step 2. Add the dependency
 	dependencies {
 	        implementation 'com.github.MajidArabi:FilePicker:0.0.1'
 	}
+	
+
+# Usage
+
+  FilePicker.show(
+                activity = this,
+                gridSpanCount = 3,
+                limitItemSelection = 3,
+                fileType =  FileType.VIDEO or FileType.IMAGE,
+                listDirection = ListDirection.RTL or ListDirection.LTR,
+            ) { selectedFiles ->
+                Log.e("TAG", "$selectedFiles")
+            }
