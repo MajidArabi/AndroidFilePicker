@@ -13,6 +13,7 @@ dependencyResolutionManagement {
         gradlePluginPortal()
         maven { url 'https://gradle.iranrepo.ir' }
         maven { url 'https://maven.google.com' }
+        maven { url 'https://jitpack.io' }
         google()
         mavenCentral()
     }

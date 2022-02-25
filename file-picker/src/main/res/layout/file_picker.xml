@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:layoutDirection="ltr"
     android:orientation="vertical"
-    tools:context=".FilePicker">
+    tools:context="com.github.file_picker.FilePicker">
 
     <FrameLayout
         android:layout_width="match_parent"

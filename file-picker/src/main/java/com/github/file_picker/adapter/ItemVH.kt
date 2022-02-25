@@ -1,8 +1,6 @@
-package ir.one_developer.file_picker.adapter
+package com.github.file_picker.adapter
 
-import android.util.Size
 import androidx.core.view.isVisible
-import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.RecyclerView
 import coil.ImageLoader
 import coil.decode.VideoFrameDecoder
@@ -11,9 +9,9 @@ import coil.fetch.VideoFrameUriFetcher
 import coil.load
 import coil.request.videoFrameMillis
 import ir.one_developer.file_picker.databinding.ItemLayoutBinding
-import ir.one_developer.file_picker.isVideo
-import ir.one_developer.file_picker.model.Media
-import ir.one_developer.file_picker.size
+import com.github.file_picker.isVideo
+import com.github.file_picker.model.Media
+import com.github.file_picker.size
 import java.io.File
 
 class ItemVH(

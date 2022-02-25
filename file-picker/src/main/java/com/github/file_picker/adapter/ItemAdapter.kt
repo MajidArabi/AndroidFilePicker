@@ -1,13 +1,13 @@
-package ir.one_developer.file_picker.adapter
+package com.github.file_picker.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import ir.one_developer.file_picker.FilePicker
+import com.github.file_picker.FilePicker
 import ir.one_developer.file_picker.databinding.ItemLayoutBinding
-import ir.one_developer.file_picker.isValidPosition
-import ir.one_developer.file_picker.model.Media
+import com.github.file_picker.isValidPosition
+import com.github.file_picker.model.Media
 
 class ItemAdapter : ListAdapter<Media, ItemVH>(COMPARATOR) {
 

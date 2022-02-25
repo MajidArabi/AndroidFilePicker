@@ -1,4 +1,4 @@
-package ir.one_developer.file_picker
+package com.github.file_picker
 
 import android.content.DialogInterface
 import android.graphics.Color
@@ -14,9 +14,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import ir.one_developer.file_picker.adapter.ItemAdapter
+import com.github.file_picker.adapter.ItemAdapter
 import ir.one_developer.file_picker.databinding.FilePickerBinding
-import ir.one_developer.file_picker.model.Media
+import com.github.file_picker.model.Media
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -226,7 +226,7 @@ class FilePicker : BottomSheetDialogFragment() {
             selectedFilesListener: (files: List<Media>) -> Unit,
         ) {
             if (isShown) return
-            this.selectedFilesListener = selectedFilesListener
+            Companion.selectedFilesListener = selectedFilesListener
             FilePicker().apply {
                 arguments = Bundle().apply {
                     putString(TITLE_KEY, title)

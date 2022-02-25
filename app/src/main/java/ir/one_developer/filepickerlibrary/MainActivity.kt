@@ -4,9 +4,9 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import ir.one_developer.file_picker.FilePicker
-import ir.one_developer.file_picker.FileType
-import ir.one_developer.file_picker.ListDirection
+import com.github.file_picker.FilePicker
+import com.github.file_picker.FileType
+import com.github.file_picker.ListDirection
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -14,7 +14,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         var video = false
-        findViewById<TextView>(R.id.textView).setOnClickListener {
+        val button = findViewById<TextView>(R.id.btn_show_files)
+        button.setOnClickListener {
             FilePicker.show(
                 activity = this,
                 gridSpanCount = 3,
@@ -25,6 +26,7 @@ class MainActivity : AppCompatActivity() {
                 Log.e("F_PATH", "$it")
             }
             video = !video
+            button.text = if (video) "Show Videos" else "Show Images"
         }
 
     }

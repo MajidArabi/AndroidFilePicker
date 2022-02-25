@@ -1,4 +1,4 @@
-package ir.one_developer.file_picker.model
+package com.github.file_picker.model
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
