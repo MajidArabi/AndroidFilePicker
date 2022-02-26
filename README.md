@@ -1,6 +1,6 @@
 [![](https://jitpack.io/v/MajidArabi/FilePicker.svg)](https://jitpack.io/#MajidArabi/FilePicker)
 
-# Android FilePicker
+# Download
 
 Add it in your root build.gradle at the end of repositories:
 
