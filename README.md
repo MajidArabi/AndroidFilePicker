@@ -46,4 +46,4 @@ simple usage in activity and fragment with kotlin extension function:
 
 | Sample | Pick Image | Pick Video
 |--|--|--|
-| <img src="https://github.com/MajidArabi/FilePicker/blob/master/Screenshot_20220225-232932.png" width="250" /> | <img src="https://github.com/MajidArabi/FilePicker/blob/master/Screenshot_20220225-233059.png" width="250" /> | <img src="https://github.com/MajidArabi/FilePicker/blob/master/Screenshot_20220225-233013.png" width="250" />
+| <img src="https://github.com/MajidArabi/FilePicker/blob/master/screenshots/sample.png" width="250" /> | <img src="https://github.com/MajidArabi/FilePicker/blob/master/screenshots/pick-image.png" width="250" /> | <img src="https://github.com/MajidArabi/FilePicker/blob/master/screenshots/pick-video.png" width="250" />
