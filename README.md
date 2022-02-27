@@ -17,7 +17,7 @@
 
 | Sample | Pick Image | Pick Video
 |--|--|--|
-| <img src="https://github.com/MajidArabi/FilePicker/blob/master/screenshots/sample.png" width="280" /> | <img src="https://github.com/MajidArabi/FilePicker/blob/master/screenshots/pick-image.png" width="280" /> | <img src="https://github.com/MajidArabi/FilePicker/blob/master/screenshots/pick-video.png" width="280" />
+| <img src="https://github.com/MajidArabi/FilePicker/blob/master/screenshots/sample.png" width="250" /> | <img src="https://github.com/MajidArabi/FilePicker/blob/master/screenshots/pick-image.png" width="250" /> | <img src="https://github.com/MajidArabi/FilePicker/blob/master/screenshots/pick-video.png" width="250" />
 
 ## Download
 
@@ -60,8 +60,8 @@ Step 2. Add the dependency
 ## Author
 
 **Majid Arabi**
-Github : [@majidarabi](https://github.com/MajidArabi)
-Linkedin: [@majidarabi](https://www.linkedin.com/in/majid-arabi-673855129/)
-Telegram: [@one_developer](https://t.me/one_developer)
-Site : http://one-developer.ir
-Email : majidarabi73@gmail.com
+- Github : [@majidarabi](https://github.com/MajidArabi)
+- Linkedin: [@majidarabi](https://www.linkedin.com/in/majid-arabi-673855129/)
+- Telegram: [@one_developer](https://t.me/one_developer)
+- Site : http://one-developer.ir
+- Email : majidarabi73@gmail.com
