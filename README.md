@@ -1,5 +1,23 @@
 
+
 [![](https://jitpack.io/v/MajidArabi/FilePicker.svg)](https://jitpack.io/#MajidArabi/FilePicker)
+
+## Simple, Powerful and Beautiful Android Image or Video Picker 😎
+**Features** 😍
+ - Single and multiple selection
+ - Supported RTL and LTR list direction (default=LTR)
+ - Supported image and video (default=image)
+ - Supported custom title
+ - Supported dynamic span count (default=2)
+ - Limit max item selection (default=1)
+ - Show file directory
+ - Show file size
+
+## Screenshots
+
+| Sample | Pick Image | Pick Video
+|--|--|--|
+| <img src="https://github.com/MajidArabi/FilePicker/blob/master/screenshots/sample.png" width="280" /> | <img src="https://github.com/MajidArabi/FilePicker/blob/master/screenshots/pick-image.png" width="280" /> | <img src="https://github.com/MajidArabi/FilePicker/blob/master/screenshots/pick-video.png" width="280" />
 
 ## Download
 
@@ -33,17 +51,17 @@ Step 2. Add the dependency
 		// Do something here with selected files
 	}
 
-simple usage in activity and fragment with kotlin extension function:
-
-## Example
+#### Kotlin
 
 	showFilePicker { 
 		// Do something here with selected files
 	}
 
+## Author
 
-## Screenshots
-
-| Sample | Pick Image | Pick Video
-|--|--|--|
-| <img src="https://github.com/MajidArabi/FilePicker/blob/master/screenshots/sample.png" width="250" /> | <img src="https://github.com/MajidArabi/FilePicker/blob/master/screenshots/pick-image.png" width="250" /> | <img src="https://github.com/MajidArabi/FilePicker/blob/master/screenshots/pick-video.png" width="250" />
+**Majid Arabi**
+Github : [@majidarabi](https://github.com/MajidArabi)
+Linkedin: [@majidarabi](https://www.linkedin.com/in/majid-arabi-673855129/)
+Telegram: [@one_developer](https://t.me/one_developer)
+Site : http://one-developer.ir
+Email : majidarabi73@gmail.com
