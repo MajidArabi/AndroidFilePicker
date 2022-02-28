@@ -12,10 +12,13 @@ import ir.one_developer.file_picker.databinding.ItemLayoutBinding
 class ItemAdapter : ListAdapter<Media, ItemVH>(COMPARATOR) {
 
     private var listener: ((Int) -> Unit)? = null
+    private var accentColor: Int = FilePicker.DEFAULT_ACCENT_COLOR
     private var limitSelectionCount: Int = FilePicker.DEFAULT_LIMIT_COUNT
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ItemVH(
-        listener, ItemLayoutBinding.inflate(
+        listener = listener,
+        accentColor = accentColor,
+        binding = ItemLayoutBinding.inflate(
             LayoutInflater.from(
                 parent.context
             ), parent, false
@@ -24,10 +27,6 @@ class ItemAdapter : ListAdapter<Media, ItemVH>(COMPARATOR) {
 
     override fun onBindViewHolder(holder: ItemVH, position: Int) {
         holder.bind(getItem(position))
-    }
-
-    fun setOnItemClickListener(listener: (Int) -> Unit) {
-        this.listener = listener
     }
 
     fun setSelect(position: Int) {
@@ -57,8 +56,16 @@ class ItemAdapter : ListAdapter<Media, ItemVH>(COMPARATOR) {
         }
     }
 
+    fun setAccentColor(color: Int) {
+        accentColor = color
+    }
+
     fun setLimitCount(limitCount: Int) {
         limitSelectionCount = limitCount
+    }
+
+    fun setOnItemClickListener(listener: (Int) -> Unit) {
+        this.listener = listener
     }
 
     override fun setHasStableIds(hasStableIds: Boolean) {

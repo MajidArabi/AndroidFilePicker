@@ -4,43 +4,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layoutDirection="ltr"
     android:orientation="vertical"
     tools:context="com.github.file_picker.FilePicker">
 
-    <FrameLayout
-        android:layout_width="match_parent"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_line"
+        android:layout_width="40dp"
+        android:layout_height="4dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="8dp"
+        android:alpha=".3"
+        app:cardBackgroundColor="@android:color/black"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="0dp" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingVertical="4dp"
-        android:paddingStart="0dp"
-        android:paddingEnd="16dp">
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="18dp"
-            android:layout_height="18dp"
-            android:layout_gravity="end|center"
-            android:src="@drawable/ic_image" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tv_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end|center"
-            android:layout_marginEnd="24dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textColor="@android:color/black"
-            tools:text="Choose File" />
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/iv_close"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_gravity="start"
-            android:padding="12dp"
-            android:src="@drawable/ic_close"
-            app:tint="@android:color/black" />
-
-    </FrameLayout>
+        android:layout_gravity="center"
+        android:paddingVertical="8dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@android:color/black"
+        tools:text="Choose File" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -68,6 +54,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginVertical="48dp"
             android:indeterminateTint="@android:color/black"
             android:indeterminateTintMode="src_atop" />
 

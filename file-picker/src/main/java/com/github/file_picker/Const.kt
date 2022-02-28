@@ -3,18 +3,14 @@ package com.github.file_picker
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
-sealed class FileType : Parcelable {
-    @Parcelize
-    object VIDEO : FileType()
-
-    @Parcelize
-    object IMAGE : FileType()
+@Parcelize
+enum class ListDirection : Parcelable {
+    LTR,
+    RTL
 }
 
-sealed class ListDirection : Parcelable {
-    @Parcelize
-    object LTR : ListDirection()
-
-    @Parcelize
-    object RTL : ListDirection()
+@Parcelize
+enum class FileType : Parcelable {
+    VIDEO,
+    IMAGE
 }

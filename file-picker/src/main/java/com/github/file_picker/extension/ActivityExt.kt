@@ -14,25 +14,10 @@ import java.io.File
 fun Activity.getStorageFiles(
     fileType: FileType = FileType.IMAGE
 ): List<File> {
-//    if (ActivityCompat.checkSelfPermission(
-//            this,
-//            Manifest.permission.READ_EXTERNAL_STORAGE
-//        ) != PackageManager.PERMISSION_GRANTED
-//    ) {
-//        ActivityCompat.requestPermissions(
-//            this,
-//            arrayOf(
-//                Manifest.permission.READ_EXTERNAL_STORAGE,
-//                Manifest.permission.WRITE_EXTERNAL_STORAGE
-//            ),
-//            4096
-//        )
-//        return arrayListOf()
-//    }
 
     val media = when (fileType) {
-        is FileType.VIDEO -> MediaStore.Video.Media.EXTERNAL_CONTENT_URI
-        is FileType.IMAGE -> MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        FileType.VIDEO -> MediaStore.Video.Media.EXTERNAL_CONTENT_URI
+        FileType.IMAGE -> MediaStore.Images.Media.EXTERNAL_CONTENT_URI
     }
 
     val columns = arrayOf(MediaStore.Images.Media.DATA, MediaStore.Images.Media._ID)

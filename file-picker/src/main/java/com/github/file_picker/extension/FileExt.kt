@@ -20,3 +20,18 @@ fun File.size(): String = when {
     size > 1024     -> "${sizeInKb.roundTo()} KB"
     else            -> "${size.roundTo()} Bytes"
 }
+
+/**
+ * Path name
+ *
+ * @return
+ */
+fun File.pathName(): CharSequence {
+    val paths = path.split("/")
+    paths.forEachIndexed { index, title ->
+        if (index == paths.lastIndex - 1) {
+            return title
+        }
+    }
+    return ""
+}

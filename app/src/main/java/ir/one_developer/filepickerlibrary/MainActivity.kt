@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.github.file_picker.FilePicker
 import com.github.file_picker.FileType
 import com.github.file_picker.ListDirection
@@ -19,11 +20,14 @@ class MainActivity : AppCompatActivity() {
             FilePicker.show(
                 activity = this,
                 gridSpanCount = 3,
-                limitItemSelection = 3,
-                fileType = if (video) FileType.VIDEO else FileType.IMAGE,
+                limitItemSelection = 5,
                 listDirection = ListDirection.RTL,
+                fileType = if (video) FileType.VIDEO else FileType.IMAGE,
+                titleTextColor = ContextCompat.getColor(this, R.color.black),
+                submitTextColor = ContextCompat.getColor(this, R.color.white),
+                accentColor = ContextCompat.getColor(this, R.color.purple_200),
             ) {
-                Log.e("F_PATH", "$it")
+                Log.e("Files", "$it")
             }
             video = !video
             button.text = if (video) "Show Videos" else "Show Images"

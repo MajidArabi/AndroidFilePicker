@@ -1,14 +1,13 @@
-
-
 [![](https://jitpack.io/v/MajidArabi/FilePicker.svg)](https://jitpack.io/#MajidArabi/FilePicker)
 
 ## Simple, Powerful and Beautiful Android Image or Video Picker 😎
 **Features** 😍
- - Check storage permission
+ - No need check storage permission 😉
  - Single and multiple selection
  - Supported RTL and LTR list direction (default=LTR)
  - Supported image and video (default=image)
  - Supported custom title
+ - Supported custom colors
  - Supported dynamic span count (default=2)
  - Limit max item selection (default=1)
  - Show file directory
@@ -16,13 +15,13 @@
 
 ## Screenshots
 
-| Sample | Pick Image | Pick Video
+| Image | Image | Video
 |--|--|--|
-| <img src="https://github.com/MajidArabi/FilePicker/blob/master/screenshots/sample.png" width="250" /> | <img src="https://github.com/MajidArabi/FilePicker/blob/master/screenshots/pick-image.png" width="250" /> | <img src="https://github.com/MajidArabi/FilePicker/blob/master/screenshots/pick-video.png" width="250" />
+| <img src="https://github.com/MajidArabi/FilePicker/blob/master/screenshots/image-2col-full.jpg" width="250" /> | <img src="https://github.com/MajidArabi/FilePicker/blob/master/screenshots/image-3col.jpg" width="250" /> | <img src="https://github.com/MajidArabi/FilePicker/blob/master/screenshots/video-2col-full.jpg" width="250" />
 
 ## Download
 
-Add it in your root build.gradle at the end of repositories:
+Step 1. Add it in your root build.gradle at the end of repositories:
 
 	allprojects {
 		repositories {
@@ -40,14 +39,14 @@ Step 2. Add the dependency
 ## Usage (Just Kotlin)
 	
 	FilePicker.show(
-	    activity = this,
-	    gridSpanCount = 3,
-	    cancellable = false,
-	    limitItemSelection = 3,
-	    title = "Select Media",
-	    submitText = "Submit Files",
-	    listDirection = ListDirection.RTL,
-	    fileType = if (video) FileType.VIDEO else FileType.IMAGE,
+        activity = this,
+        gridSpanCount = 3,
+        limitItemSelection = 5,
+        listDirection = ListDirection.RTL,
+        fileType = if (video) FileType.VIDEO else FileType.IMAGE,
+        titleTextColor = ContextCompat.getColor(this, R.color.black),
+        submitTextColor = ContextCompat.getColor(this, R.color.white),
+        accentColor = ContextCompat.getColor(this, R.color.purple_200),
 	) {
 		// Do something here with selected files
 	}
@@ -61,8 +60,8 @@ Step 2. Add the dependency
 ## Author
 
 **Majid Arabi**
-- Github : [@majidarabi](https://github.com/MajidArabi)
+- Github: [@majidarabi](https://github.com/MajidArabi)
 - Linkedin: [@majidarabi](https://www.linkedin.com/in/majid-arabi-673855129/)
 - Telegram: [@one_developer](https://t.me/one_developer)
-- Site : http://one-developer.ir
-- Email : majidarabi73@gmail.com
+- Site: http://one-developer.ir
+- Email: majidarabi73@gmail.com

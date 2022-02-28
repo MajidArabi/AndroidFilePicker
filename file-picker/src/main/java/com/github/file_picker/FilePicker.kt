@@ -2,6 +2,7 @@ package com.github.file_picker
 
 import android.Manifest
 import android.content.DialogInterface
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -21,6 +22,7 @@ import com.github.file_picker.model.Media
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import ir.one_developer.file_picker.R
 import ir.one_developer.file_picker.databinding.FilePickerBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -44,14 +46,20 @@ class FilePicker : BottomSheetDialogFragment() {
 
     private var itemAdapter: ItemAdapter? = null
 
-    private var title: String = DEFAULT_TITLE
     private var selectedFiles = arrayListOf<Media>()
     private var limitCount: Int = DEFAULT_LIMIT_COUNT
     private var fileType: FileType = DEFAULT_FILE_TYPE
     private var gridSpanCount: Int = DEFAULT_SPAN_COUNT
-    private var submitText: String = DEFAULT_SUBMIT_TEXT
     private var cancellable: Boolean = DEFAULT_CANCELABLE
     private var listDirection: ListDirection = DEFAULT_LIST_DIRECTION
+
+    private var title: String = DEFAULT_TITLE
+    private var titleTextColor: Int = DEFAULT_TITLE_TEXT_COLOR
+
+    private var submitText: String = DEFAULT_SUBMIT_TEXT
+    private var submitTextColor: Int = DEFAULT_SUBMIT_TEXT_COLOR
+
+    private var accentColor: Int = DEFAULT_ACCENT_COLOR
 
     private var requestPermission =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
@@ -60,13 +68,20 @@ class FilePicker : BottomSheetDialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setStyle(STYLE_NORMAL, R.style.BottomSheetDialog)
         arguments?.let {
             cancellable = it.getBoolean(CANCELLABLE_KEY)
             gridSpanCount = it.getInt(GRID_SPAN_COUNT_KEY)
+
             title = it.getString(TITLE_KEY) ?: DEFAULT_TITLE
+            titleTextColor = it.getInt(TITLE_TEXT_COLOR_KEY)
+
+            submitText = it.getString(SUBMIT_TEXT_KEY) ?: DEFAULT_SUBMIT_TEXT
+            submitTextColor = it.getInt(SUBMIT_TEXT_COLOR_KEY)
+            accentColor = it.getInt(ACCENT_COLOR_KEY)
+
             limitCount = it.getInt(LIMIT_ITEM_SELECTION_COUNT_KEY)
             fileType = it.getParcelable(FILE_TYPE_KEY) ?: DEFAULT_FILE_TYPE
-            submitText = it.getString(SUBMIT_TEXT_KEY) ?: DEFAULT_SUBMIT_TEXT
             listDirection = it.getParcelable(LIST_DIRECTION_KEY) ?: DEFAULT_LIST_DIRECTION
             selectedFiles = it.getParcelableArrayList(SELECTED_FILES_KEY) ?: arrayListOf()
         }
@@ -139,11 +154,15 @@ class FilePicker : BottomSheetDialogFragment() {
         setFixedSubmitButton()
         showSelectedCount()
         setButtonEnabled()
-        tvTitle.text = title
+
         btnSubmit.text = submitText
-        ivClose.setOnClickListener {
-            dismissAllowingStateLoss()
+        cardLine.setCardBackgroundColor(ColorStateList.valueOf(accentColor))
+        progress.indeterminateTintList = ColorStateList.valueOf(accentColor)
+        tvTitle.apply {
+            text = title
+            setTextColor(titleTextColor)
         }
+
         btnSubmit.setOnClickListener {
             submitList()
             dismissAllowingStateLoss()
@@ -163,11 +182,12 @@ class FilePicker : BottomSheetDialogFragment() {
                 setButtonEnabled()
             }
             setLimitCount(limitCount)
+            setAccentColor(accentColor)
         }
         rvFiles.apply {
             layoutDirection = when (listDirection) {
-                is ListDirection.LTR -> RecyclerView.LAYOUT_DIRECTION_LTR
-                is ListDirection.RTL -> RecyclerView.LAYOUT_DIRECTION_RTL
+                ListDirection.LTR -> RecyclerView.LAYOUT_DIRECTION_LTR
+                ListDirection.RTL -> RecyclerView.LAYOUT_DIRECTION_RTL
             }
             layoutManager = GridLayoutManager(requireContext(), gridSpanCount)
             adapter = itemAdapter
@@ -180,8 +200,8 @@ class FilePicker : BottomSheetDialogFragment() {
             btnSubmit.apply {
                 isEnabled = hasSelected
                 if (isEnabled) {
-                    setTextColor(Color.WHITE)
-                    setBackgroundColor(Color.BLACK)
+                    setTextColor(submitTextColor)
+                    setBackgroundColor(accentColor)
                 } else {
                     setTextColor(Color.GRAY)
                     setBackgroundColor(Color.LTGRAY)
@@ -211,19 +231,33 @@ class FilePicker : BottomSheetDialogFragment() {
 
     companion object {
         private const val TAG = "FilePicker"
-        const val DEFAULT_LIMIT_COUNT = 1
+
+        // Defaults
         const val DEFAULT_SPAN_COUNT = 2
+        const val DEFAULT_LIMIT_COUNT = 1
         const val DEFAULT_CANCELABLE = true
-        const val DEFAULT_TITLE = "Choose File"
-        const val DEFAULT_SUBMIT_TEXT = "Submit"
         val DEFAULT_FILE_TYPE = FileType.IMAGE
         val DEFAULT_LIST_DIRECTION = ListDirection.LTR
 
+        const val DEFAULT_ACCENT_COLOR = Color.BLACK
+        const val DEFAULT_TITLE = "Choose File"
+        const val DEFAULT_TITLE_TEXT_COLOR = DEFAULT_ACCENT_COLOR
+
+        const val DEFAULT_SUBMIT_TEXT = "Submit"
+        const val DEFAULT_SUBMIT_TEXT_COLOR = Color.WHITE
+
+        // Keys
         private const val TITLE_KEY = "title"
+        private const val TITLE_TEXT_COLOR_KEY = "title.text.color"
+
+        private const val SUBMIT_TEXT_KEY = "submit.text"
+        private const val SUBMIT_TEXT_COLOR_KEY = "submit.text.color"
+
         private const val FILE_TYPE_KEY = "file.type"
         private const val CANCELLABLE_KEY = "cancelable"
         private const val SELECTED_FILES_KEY = "selected"
-        private const val SUBMIT_TEXT_KEY = "submit.title"
+
+        private const val ACCENT_COLOR_KEY = "accent.color"
         private const val GRID_SPAN_COUNT_KEY = "span.count"
         private const val LIST_DIRECTION_KEY = "list.direction"
         private const val LIMIT_ITEM_SELECTION_COUNT_KEY = "limit"
@@ -246,16 +280,20 @@ class FilePicker : BottomSheetDialogFragment() {
          * @param selectedFilesListener
          * @receiver
          */
+        @JvmStatic
         fun show(
             activity: AppCompatActivity,
             title: String = DEFAULT_TITLE,
-            fileType: FileType = DEFAULT_FILE_TYPE,
-            gridSpanCount: Int = DEFAULT_SPAN_COUNT,
+            titleTextColor: Int = DEFAULT_TITLE_TEXT_COLOR,
             submitText: String = DEFAULT_SUBMIT_TEXT,
+            submitTextColor: Int = DEFAULT_SUBMIT_TEXT_COLOR,
+            accentColor: Int = DEFAULT_ACCENT_COLOR,
             cancellable: Boolean = DEFAULT_CANCELABLE,
+            gridSpanCount: Int = DEFAULT_SPAN_COUNT,
             limitItemSelection: Int = DEFAULT_LIMIT_COUNT,
-            selectedFiles: ArrayList<Media> = arrayListOf(),
+            fileType: FileType = DEFAULT_FILE_TYPE,
             listDirection: ListDirection = DEFAULT_LIST_DIRECTION,
+            selectedFiles: ArrayList<Media> = arrayListOf(),
             selectedFilesListener: (files: List<Media>) -> Unit,
         ) {
             if (isShown) return
@@ -263,10 +301,13 @@ class FilePicker : BottomSheetDialogFragment() {
             FilePicker().apply {
                 arguments = Bundle().apply {
                     putString(TITLE_KEY, title)
-                    putParcelable(FILE_TYPE_KEY, fileType)
+                    putInt(TITLE_TEXT_COLOR_KEY, titleTextColor)
                     putString(SUBMIT_TEXT_KEY, submitText)
-                    putBoolean(CANCELLABLE_KEY, cancellable)
+                    putInt(SUBMIT_TEXT_COLOR_KEY, submitTextColor)
+                    putInt(ACCENT_COLOR_KEY, accentColor)
                     putInt(GRID_SPAN_COUNT_KEY, gridSpanCount)
+                    putBoolean(CANCELLABLE_KEY, cancellable)
+                    putParcelable(FILE_TYPE_KEY, fileType)
                     putParcelable(LIST_DIRECTION_KEY, listDirection)
                     putParcelableArrayList(SELECTED_FILES_KEY, selectedFiles)
                     putInt(LIMIT_ITEM_SELECTION_COUNT_KEY, limitItemSelection)
@@ -293,7 +334,10 @@ class FilePicker : BottomSheetDialogFragment() {
  */
 fun AppCompatActivity.showFilePicker(
     title: String = FilePicker.DEFAULT_TITLE,
+    titleTextColor: Int = FilePicker.DEFAULT_TITLE_TEXT_COLOR,
     submitText: String = FilePicker.DEFAULT_SUBMIT_TEXT,
+    submitTextColor: Int = FilePicker.DEFAULT_SUBMIT_TEXT_COLOR,
+    accentColor: Int = FilePicker.DEFAULT_ACCENT_COLOR,
     fileType: FileType = FilePicker.DEFAULT_FILE_TYPE,
     listDirection: ListDirection = FilePicker.DEFAULT_LIST_DIRECTION,
     cancellable: Boolean = FilePicker.DEFAULT_CANCELABLE,
@@ -305,7 +349,10 @@ fun AppCompatActivity.showFilePicker(
     FilePicker.show(
         activity = this,
         title = title,
+        titleTextColor = titleTextColor,
         submitText = submitText,
+        submitTextColor = submitTextColor,
+        accentColor = accentColor,
         fileType = fileType,
         listDirection = listDirection,
         cancellable = cancellable,
@@ -332,7 +379,10 @@ fun AppCompatActivity.showFilePicker(
  */
 fun Fragment.showFilePicker(
     title: String = FilePicker.DEFAULT_TITLE,
+    titleTextColor: Int = FilePicker.DEFAULT_TITLE_TEXT_COLOR,
     submitText: String = FilePicker.DEFAULT_SUBMIT_TEXT,
+    submitTextColor: Int = FilePicker.DEFAULT_SUBMIT_TEXT_COLOR,
+    accentColor: Int = FilePicker.DEFAULT_ACCENT_COLOR,
     fileType: FileType = FilePicker.DEFAULT_FILE_TYPE,
     listDirection: ListDirection = FilePicker.DEFAULT_LIST_DIRECTION,
     cancellable: Boolean = FilePicker.DEFAULT_CANCELABLE,
@@ -346,7 +396,10 @@ fun Fragment.showFilePicker(
     }
     (requireActivity() as AppCompatActivity).showFilePicker(
         title = title,
+        titleTextColor = titleTextColor,
         submitText = submitText,
+        submitTextColor = submitTextColor,
+        accentColor = accentColor,
         fileType = fileType,
         listDirection = listDirection,
         cancellable = cancellable,

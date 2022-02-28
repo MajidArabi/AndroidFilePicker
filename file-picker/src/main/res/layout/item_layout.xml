@@ -6,10 +6,10 @@
     android:layout_height="wrap_content"
     android:layoutDirection="ltr">
 
-    <com.google.android.material.card.MaterialCardView
+    <com.github.file_picker.SquareCardView
         android:id="@+id/card"
         android:layout_width="match_parent"
-        android:layout_height="130dp"
+        android:layout_height="wrap_content"
         android:layout_marginHorizontal="4dp"
         android:layout_marginVertical="4dp"
         app:cardCornerRadius="8dp"
@@ -24,13 +24,20 @@
             android:scaleType="centerCrop"
             tools:srcCompat="@tools:sample/avatars" />
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/iv_checked"
+        <FrameLayout
+            android:id="@+id/frame_checked"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:alpha=".45"
+            android:background="@android:color/black" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_checked"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:background="#66000000"
-            android:scaleType="center"
+            android:alpha=".85"
+            android:scaleType="centerInside"
             app:srcCompat="@drawable/ic_check"
             app:tint="@android:color/white" />
 
@@ -107,6 +114,6 @@
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-    </com.google.android.material.card.MaterialCardView>
+    </com.github.file_picker.SquareCardView>
 
 </FrameLayout>
