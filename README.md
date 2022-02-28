@@ -1,4 +1,4 @@
-[![](https://jitpack.io/v/MajidArabi/FilePicker.svg)](https://jitpack.io/#MajidArabi/FilePicker)
+[![](https://jitpack.io/v/MajidArabi/AndroidFilePicker.svg)](https://jitpack.io/#MajidArabi/AndroidFilePicker)
 
 ## Simple, Powerful and Beautiful Android Image or Video Picker 😎
 **Features** 😍
@@ -33,7 +33,7 @@ Step 1. Add it in your root build.gradle at the end of repositories:
 Step 2. Add the dependency
 
 	dependencies {
-	        implementation 'com.github.majidarabi:AndroidFilePicker:0.0.2'
+	        implementation 'com.github.majidarabi:AndroidFilePicker:0.0.4'
 	}
 
 ## Usage (Just Kotlin)
