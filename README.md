@@ -37,7 +37,7 @@ Step 2. Add the dependency
 	        implementation 'com.github.majidarabi:AndroidFilePicker:0.0.2'
 	}
 
-## Usage
+## Usage (Just Kotlin)
 	
 	FilePicker.show(
 	    activity = this,
@@ -51,8 +51,8 @@ Step 2. Add the dependency
 	) {
 		// Do something here with selected files
 	}
-
-#### Kotlin
+	
+**OR**
 
 	showFilePicker { 
 		// Do something here with selected files
