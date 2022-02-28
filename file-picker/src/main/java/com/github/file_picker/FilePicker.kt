@@ -1,11 +1,13 @@
 package com.github.file_picker
 
+import android.Manifest
 import android.content.DialogInterface
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -13,6 +15,8 @@ import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.file_picker.adapter.ItemAdapter
+import com.github.file_picker.extension.getStorageFiles
+import com.github.file_picker.extension.hasPermission
 import com.github.file_picker.model.Media
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -49,6 +53,11 @@ class FilePicker : BottomSheetDialogFragment() {
     private var cancellable: Boolean = DEFAULT_CANCELABLE
     private var listDirection: ListDirection = DEFAULT_LIST_DIRECTION
 
+    private var requestPermission =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+            if (isGranted) loadFiles()
+        }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -78,15 +87,12 @@ class FilePicker : BottomSheetDialogFragment() {
 
     override fun onStart() {
         super.onStart()
-        CoroutineScope(Dispatchers.IO).launch {
-            val files = loadFiles()
-            requireActivity().runOnUiThread {
-                itemAdapter?.submitList(files)
-                binding.progress.isVisible = false
-                setFixedSubmitButton()
-                showSelectedCount()
-            }
+        val readStoragePermission = Manifest.permission.READ_EXTERNAL_STORAGE
+        if (!hasPermission(readStoragePermission)) {
+            requestPermission(readStoragePermission)
+            return
         }
+        loadFiles()
     }
 
     override fun show(manager: FragmentManager, tag: String?) {
@@ -103,7 +109,10 @@ class FilePicker : BottomSheetDialogFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        requestPermission.unregister()
     }
+
+    private fun requestPermission(permission: String) = requestPermission.launch(permission)
 
     private fun setCancellableDialog(cancellable: Boolean) {
         dialog?.setCancelable(cancellable)
@@ -181,10 +190,17 @@ class FilePicker : BottomSheetDialogFragment() {
         }
     }
 
-    private fun loadFiles(): List<Media> = requireActivity()
-        .getStorageFiles(fileType = fileType)
-        .map { Media(it) }
-        .sortedByDescending { it.file.lastModified() }
+    private fun loadFiles() = CoroutineScope(Dispatchers.IO).launch {
+        val files = getStorageFiles(fileType = fileType)
+            .map { Media(it) }
+            .sortedByDescending { it.file.lastModified() }
+        requireActivity().runOnUiThread {
+            itemAdapter?.submitList(files)
+            binding.progress.isVisible = false
+            setFixedSubmitButton()
+            showSelectedCount()
+        }
+    }
 
     private fun submitList() = getSelectedItems()?.let { selectedFilesListener(it) }
 
@@ -214,6 +230,22 @@ class FilePicker : BottomSheetDialogFragment() {
 
         private var selectedFilesListener: (files: List<Media>) -> Unit = { }
         private var isShown: Boolean = false
+
+        /**
+         * Show file picker
+         *
+         * @param activity
+         * @param title
+         * @param fileType
+         * @param gridSpanCount
+         * @param submitText
+         * @param cancellable
+         * @param limitItemSelection
+         * @param selectedFiles
+         * @param listDirection
+         * @param selectedFilesListener
+         * @receiver
+         */
         fun show(
             activity: AppCompatActivity,
             title: String = DEFAULT_TITLE,
@@ -227,7 +259,7 @@ class FilePicker : BottomSheetDialogFragment() {
             selectedFilesListener: (files: List<Media>) -> Unit,
         ) {
             if (isShown) return
-            Companion.selectedFilesListener = selectedFilesListener
+            this.selectedFilesListener = selectedFilesListener
             FilePicker().apply {
                 arguments = Bundle().apply {
                     putString(TITLE_KEY, title)
@@ -245,6 +277,20 @@ class FilePicker : BottomSheetDialogFragment() {
 
 }
 
+/**
+ * Show file picker
+ *
+ * @param title
+ * @param submitText
+ * @param fileType
+ * @param listDirection
+ * @param cancellable
+ * @param gridSpanCount
+ * @param limitItemSelection
+ * @param selectedFiles
+ * @param selectedFilesListener
+ * @receiver
+ */
 fun AppCompatActivity.showFilePicker(
     title: String = FilePicker.DEFAULT_TITLE,
     submitText: String = FilePicker.DEFAULT_SUBMIT_TEXT,
@@ -270,6 +316,20 @@ fun AppCompatActivity.showFilePicker(
     )
 }
 
+/**
+ * Show file picker
+ *
+ * @param title
+ * @param submitText
+ * @param fileType
+ * @param listDirection
+ * @param cancellable
+ * @param gridSpanCount
+ * @param limitItemSelection
+ * @param selectedFiles
+ * @param selectedFilesListener
+ * @receiver
+ */
 fun Fragment.showFilePicker(
     title: String = FilePicker.DEFAULT_TITLE,
     submitText: String = FilePicker.DEFAULT_SUBMIT_TEXT,

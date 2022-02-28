@@ -5,9 +5,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.github.file_picker.FilePicker
-import ir.one_developer.file_picker.databinding.ItemLayoutBinding
-import com.github.file_picker.isValidPosition
+import com.github.file_picker.extension.isValidPosition
 import com.github.file_picker.model.Media
+import ir.one_developer.file_picker.databinding.ItemLayoutBinding
 
 class ItemAdapter : ListAdapter<Media, ItemVH>(COMPARATOR) {
 

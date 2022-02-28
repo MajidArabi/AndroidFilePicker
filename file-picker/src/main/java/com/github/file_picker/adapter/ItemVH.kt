@@ -9,9 +9,9 @@ import coil.fetch.VideoFrameUriFetcher
 import coil.load
 import coil.request.videoFrameMillis
 import ir.one_developer.file_picker.databinding.ItemLayoutBinding
-import com.github.file_picker.isVideo
+import com.github.file_picker.extension.isVideo
+import com.github.file_picker.extension.size
 import com.github.file_picker.model.Media
-import com.github.file_picker.size
 import java.io.File
 
 class ItemVH(
