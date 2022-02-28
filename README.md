@@ -4,6 +4,7 @@
 
 ## Simple, Powerful and Beautiful Android Image or Video Picker 😎
 **Features** 😍
+ - Check storage permission
  - Single and multiple selection
  - Supported RTL and LTR list direction (default=LTR)
  - Supported image and video (default=image)
