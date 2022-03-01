@@ -76,6 +76,7 @@
             android:paddingVertical="8dp"
             android:textColor="@android:color/white"
             android:textSize="22sp"
+            android:enabled="false"
             app:cornerRadius="16dp"
             tools:text="Submit" />
 

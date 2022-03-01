@@ -2,36 +2,51 @@ package ir.one_developer.filepickerlibrary
 
 import android.os.Bundle
 import android.util.Log
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.github.file_picker.FilePicker
-import com.github.file_picker.FileType
-import com.github.file_picker.ListDirection
+import com.github.file_picker.model.Media
+import com.github.file_picker.showFilePicker
+import ir.one_developer.filepickerlibrary.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var adapter: FileAdapter
+    private val selectedFiles = arrayListOf<Media>()
+    private lateinit var binding: ActivityMainBinding
+
+    companion object {
+        private const val TAG = "MainActivity"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        var video = false
-        val button = findViewById<TextView>(R.id.btn_show_files)
-        button.setOnClickListener {
-            FilePicker.show(
-                activity = this,
-                gridSpanCount = 3,
-                limitItemSelection = 5,
-                listDirection = ListDirection.RTL,
-                fileType = if (video) FileType.VIDEO else FileType.IMAGE,
-                titleTextColor = ContextCompat.getColor(this, R.color.black),
-                submitTextColor = ContextCompat.getColor(this, R.color.white),
-                accentColor = ContextCompat.getColor(this, R.color.purple_200),
-            ) {
-                Log.e("Files", "$it")
-            }
-            video = !video
-            button.text = if (video) "Show Videos" else "Show Images"
-        }
-
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        setupViews()
     }
+
+    private fun setupViews() = binding.apply {
+        adapter = FileAdapter()
+        rvFiles.adapter = adapter
+        btnOpenFiles.setOnClickListener {
+            showFiles()
+        }
+    }
+
+    private fun showFiles(): Unit = showFilePicker(
+        limitItemSelection = 2,
+        selectedFiles = selectedFiles,
+        accentColor = ContextCompat.getColor(this@MainActivity, R.color.purple_700),
+        titleTextColor = ContextCompat.getColor(this@MainActivity, R.color.purple_700)
+    ) {
+        adapter.submitList(it)
+        updateSelectedFiles(it)
+        Log.i(TAG, "FilePicker:SelectedItems: $selectedFiles")
+    }
+
+    private fun updateSelectedFiles(files: List<Media>) {
+        selectedFiles.clear()
+        selectedFiles.addAll(files)
+    }
+
 }

@@ -64,6 +64,7 @@ class FilePicker : BottomSheetDialogFragment() {
     private var requestPermission =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
             if (isGranted) loadFiles()
+            else dismissAllowingStateLoss()
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -150,12 +151,11 @@ class FilePicker : BottomSheetDialogFragment() {
     }
 
     private fun setupViews() = binding.apply {
+        setSubmitButtonDisableColors()
         setupRecyclerView(rvFiles)
         setFixedSubmitButton()
         showSelectedCount()
-        setButtonEnabled()
 
-        btnSubmit.text = submitText
         cardLine.setCardBackgroundColor(ColorStateList.valueOf(accentColor))
         progress.indeterminateTintList = ColorStateList.valueOf(accentColor)
         tvTitle.apply {
@@ -163,9 +163,12 @@ class FilePicker : BottomSheetDialogFragment() {
             setTextColor(titleTextColor)
         }
 
-        btnSubmit.setOnClickListener {
-            submitList()
-            dismissAllowingStateLoss()
+        btnSubmit.apply {
+            text = submitText
+            setOnClickListener {
+                submitList()
+                dismissAllowingStateLoss()
+            }
         }
     }
 
@@ -176,13 +179,13 @@ class FilePicker : BottomSheetDialogFragment() {
 
     private fun setupRecyclerView(rvFiles: RecyclerView) {
         itemAdapter = ItemAdapter().apply {
+            setLimitCount(limitCount)
+            setAccentColor(accentColor)
             setOnItemClickListener { itemPosition ->
                 itemAdapter?.setSelect(itemPosition)
                 showSelectedCount()
                 setButtonEnabled()
             }
-            setLimitCount(limitCount)
-            setAccentColor(accentColor)
         }
         rvFiles.apply {
             layoutDirection = when (listDirection) {
@@ -200,25 +203,43 @@ class FilePicker : BottomSheetDialogFragment() {
             btnSubmit.apply {
                 isEnabled = hasSelected
                 if (isEnabled) {
-                    setTextColor(submitTextColor)
-                    setBackgroundColor(accentColor)
+                    setSubmitButtonEnableColors()
                 } else {
-                    setTextColor(Color.GRAY)
-                    setBackgroundColor(Color.LTGRAY)
+                    setSubmitButtonDisableColors()
                 }
             }
         }
     }
 
+    private fun setSubmitButtonEnableColors() = binding.btnSubmit.apply {
+        setTextColor(submitTextColor)
+        setBackgroundColor(accentColor)
+    }
+
+    private fun setSubmitButtonDisableColors() = binding.btnSubmit.apply {
+        setTextColor(Color.GRAY)
+        setBackgroundColor(Color.LTGRAY)
+    }
+
     private fun loadFiles() = CoroutineScope(Dispatchers.IO).launch {
         val files = getStorageFiles(fileType = fileType)
-            .map { Media(it) }
+            .map { Media(file = it) }
             .sortedByDescending { it.file.lastModified() }
+
+        selectedFiles.forEach { media ->
+            files.forEach {
+                if (it.id == media.id) {
+                    it.isSelected = media.isSelected
+                }
+            }
+        }
+
         requireActivity().runOnUiThread {
             itemAdapter?.submitList(files)
             binding.progress.isVisible = false
             setFixedSubmitButton()
             showSelectedCount()
+            setButtonEnabled()
         }
     }
 
