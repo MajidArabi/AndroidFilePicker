@@ -37,9 +37,7 @@ Step 2. Add the dependency
 	}
 
 ## Usage (Just Kotlin)
-	
-	FilePicker.show(
-        activity = this,
+	showFilePicker(
         gridSpanCount = 3,
         limitItemSelection = 5,
         listDirection = ListDirection.RTL,
@@ -47,13 +45,7 @@ Step 2. Add the dependency
         titleTextColor = ContextCompat.getColor(this, R.color.black),
         submitTextColor = ContextCompat.getColor(this, R.color.white),
         accentColor = ContextCompat.getColor(this, R.color.purple_200),
-	) {
-		// Do something here with selected files
-	}
-	
-**OR**
-
-	showFilePicker { 
+	) { 
 		// Do something here with selected files
 	}
 
