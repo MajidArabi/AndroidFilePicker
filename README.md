@@ -1,4 +1,4 @@
-[![](https://jitpack.io/v/MajidArabi/AndroidFilePicker.svg)](https://jitpack.io/#MajidArabi/AndroidFilePicker)
+[![](https://jitpack.io/v/MajidArabi/AndroidFilePicker.svg)](https://jitpack.io/#MajidArabi/AndroidFilePicker) ![](https://img.shields.io/github/issues/MajidArabi/AndroidFilePicker) ![](https://img.shields.io/github/forks/MajidArabi/AndroidFilePicker) ![](https://img.shields.io/github/stars/MajidArabi/AndroidFilePicker)  ![](https://img.shields.io/badge/minSdk-21-yellowgreen)
 
 ## Simple, Powerful and Beautiful Android Image or Video Picker 😎
 **Features** 😍
