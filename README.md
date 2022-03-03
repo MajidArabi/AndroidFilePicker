@@ -1,5 +1,4 @@
-[![](https://jitpack.io/v/MajidArabi/AndroidFilePicker.svg)](https://jitpack.io/#MajidArabi/AndroidFilePicker) ![](https://img.shields.io/github/issues/MajidArabi/AndroidFilePicker) ![](https://img.shields.io/github/forks/MajidArabi/AndroidFilePicker) ![](https://img.shields.io/github/stars/MajidArabi/AndroidFilePicker)  ![](https://img.shields.io/badge/minSdk-21-yellowgreen)
-
+[![](https://jitpack.io/v/MajidArabi/AndroidFilePicker.svg)](https://jitpack.io/#MajidArabi/AndroidFilePicker) [![API](https://img.shields.io/badge/API-21%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=21) ![](https://img.shields.io/github/issues/MajidArabi/AndroidFilePicker) ![](https://img.shields.io/github/forks/MajidArabi/AndroidFilePicker) ![](https://img.shields.io/github/stars/MajidArabi/AndroidFilePicker)
 ## Simple, Powerful and Beautiful Android Image or Video Picker 😎
 **Features** 😍
  - No need check storage permission 😉
