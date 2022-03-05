@@ -26,7 +26,7 @@ fun Activity.getStorageFiles(
         columns,
         null,
         null,
-        null
+        MediaStore.Images.ImageColumns.DATE_MODIFIED + " DESC"
     )
     //Total number of images
     val count = cursor?.count ?: return arrayListOf()

@@ -224,7 +224,6 @@ class FilePicker : BottomSheetDialogFragment() {
     private fun loadFiles() = CoroutineScope(Dispatchers.IO).launch {
         val files = getStorageFiles(fileType = fileType)
             .map { Media(file = it) }
-            .sortedByDescending { it.file.lastModified() }
 
         selectedFiles.forEach { media ->
             files.forEach {
@@ -342,8 +341,11 @@ class FilePicker : BottomSheetDialogFragment() {
 /**
  * Show file picker
  *
- * @param title
- * @param submitText
+ * @param title the bottom sheet dialog title
+ * @param titleTextColor the bottom sheet dialog title text color
+ * @param submitText the submit button text
+ * @param submitTextColor the submit button text color
+ * @param accentColor the accent color using in submit button background color, progress bar color, selected item color.
  * @param fileType
  * @param listDirection
  * @param cancellable
@@ -388,7 +390,10 @@ fun AppCompatActivity.showFilePicker(
  * Show file picker
  *
  * @param title
+ * @param titleTextColor
  * @param submitText
+ * @param submitTextColor
+ * @param accentColor
  * @param fileType
  * @param listDirection
  * @param cancellable
