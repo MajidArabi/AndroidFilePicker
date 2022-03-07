@@ -1,4 +1,4 @@
-package com.github.file_picker
+package com.github.file_picker.view
 
 import android.content.Context
 import android.util.AttributeSet

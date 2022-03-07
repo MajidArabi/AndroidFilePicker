@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:layoutDirection="ltr">
 
-    <com.github.file_picker.SquareCardView
+    <com.github.file_picker.view.SquareCardView
         android:id="@+id/card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -114,6 +114,6 @@
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-    </com.github.file_picker.SquareCardView>
+    </com.github.file_picker.view.SquareCardView>
 
 </FrameLayout>

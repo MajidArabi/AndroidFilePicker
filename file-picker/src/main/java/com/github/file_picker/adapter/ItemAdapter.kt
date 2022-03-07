@@ -9,11 +9,11 @@ import com.github.file_picker.extension.isValidPosition
 import com.github.file_picker.model.Media
 import ir.one_developer.file_picker.databinding.ItemLayoutBinding
 
-class ItemAdapter : ListAdapter<Media, ItemVH>(COMPARATOR) {
-
+class ItemAdapter(
+    private var accentColor: Int = FilePicker.DEFAULT_ACCENT_COLOR,
+    private var limitSelectionCount: Int = FilePicker.DEFAULT_LIMIT_COUNT,
     private var listener: ((Int) -> Unit)? = null
-    private var accentColor: Int = FilePicker.DEFAULT_ACCENT_COLOR
-    private var limitSelectionCount: Int = FilePicker.DEFAULT_LIMIT_COUNT
+) : ListAdapter<Media, ItemVH>(COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ItemVH(
         listener = listener,
@@ -29,7 +29,12 @@ class ItemAdapter : ListAdapter<Media, ItemVH>(COMPARATOR) {
         holder.bind(getItem(position))
     }
 
-    fun setSelect(position: Int) {
+    /**
+     * Set selected
+     *
+     * @param position the selected item position
+     */
+    fun setSelected(position: Int) {
         if (limitSelectionCount > 1) {
             val item = getItem(position)
 
@@ -54,18 +59,6 @@ class ItemAdapter : ListAdapter<Media, ItemVH>(COMPARATOR) {
             getItem(lastSelectedPosition).isSelected = true
             notifyItemChanged(lastSelectedPosition)
         }
-    }
-
-    fun setAccentColor(color: Int) {
-        accentColor = color
-    }
-
-    fun setLimitCount(limitCount: Int) {
-        limitSelectionCount = limitCount
-    }
-
-    fun setOnItemClickListener(listener: (Int) -> Unit) {
-        this.listener = listener
     }
 
     override fun setHasStableIds(hasStableIds: Boolean) {

@@ -9,7 +9,6 @@ import com.github.file_picker.extension.pathName
 import com.github.file_picker.extension.size
 import com.github.file_picker.model.Media
 import ir.one_developer.file_picker.databinding.ItemLayoutBinding
-import java.io.File
 
 class ItemVH(
     private val listener: ((Int) -> Unit)?,
