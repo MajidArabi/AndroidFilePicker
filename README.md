@@ -42,18 +42,44 @@ Step 2. Add the dependency
 	        implementation 'com.github.majidarabi:AndroidFilePicker:$LATEST_VERSION'
 	}
 
-## Usage (Just Kotlin)
+## Usage
+
+**Kotlin**
+
 	showFilePicker(
-        gridSpanCount = 3,
         limitItemSelection = 5,
         listDirection = ListDirection.RTL,
-        fileType = if (video) FileType.VIDEO else FileType.IMAGE,
-        titleTextColor = ContextCompat.getColor(this, R.color.black),
-        submitTextColor = ContextCompat.getColor(this, R.color.white),
-        accentColor = ContextCompat.getColor(this, R.color.purple_200),
-	) { 
-		// Do something here with selected files
-	}
+        accentColor = ContextCompat.getColor(this@MainActivity, R.color.purple_700),
+        titleTextColor = ContextCompat.getColor(this@MainActivity, R.color.purple_700),
+        onSubmitClickListener = object : OnSubmitClickListener {
+            override fun onClick(files: List<Media>) {
+                // Do something here with selected files
+            }
+        },
+        onItemClickListener = object : OnItemClickListener {
+            override fun onClick(media: Media, position: Int, adapter: ItemAdapter) {
+                if (!media.file.isDirectory) {
+                    adapter.setSelected(position)
+                }
+            }
+        }
+    )
+	
+**Java**
+	
+	new FilePicker.Builder(this)
+                .setLimitItemSelection(3)
+                .setAccentColor(Color.CYAN)
+                .setCancellable(false)
+                .setOnSubmitClickListener(files -> {
+                    // Do something here with selected files
+                })
+                .setOnItemClickListener((media, pos, adapter) -> {
+                    if (!media.getFile().isDirectory()) {
+                        adapter.setSelected(pos);
+                    }
+                })
+                .buildAndShow();
 
 ## Author
 
