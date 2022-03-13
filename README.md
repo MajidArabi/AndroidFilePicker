@@ -84,11 +84,11 @@ Step 2. Add the dependency
 ## Author
 
 **Majid Arabi**
-- Github: [@majidarabi](https://github.com/MajidArabi)
-- Linkedin: [@majidarabi](https://www.linkedin.com/in/majid-arabi-673855129/)
-- Telegram: [@one_developer](https://t.me/one_developer)
-- Site: http://one-developer.ir
-- Email: majidarabi73@gmail.com
+- [Github](https://github.com/MajidArabi)
+- [Linkedin](https://www.linkedin.com/in/majid-arabi-673855129/)
+- [Telegram](https://t.me/one_developer)
+- [Site](http://one-developer.ir)
+- [Email](mailto:majidarabi73@gmail.com)
 
 ## License
 ```
