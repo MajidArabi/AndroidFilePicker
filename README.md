@@ -1,5 +1,5 @@
 [![Jitpack](https://jitpack.io/v/MajidArabi/AndroidFilePicker.svg)](https://jitpack.io/#MajidArabi/AndroidFilePicker)
-[![Downloads](https://img.shields.io/badge/dynamic/json?color=blue&label=download&query=month&url=https%3A%2F%2Fjitpack.io%2Fapi%2Fdownloads%2Fcom.github.majidarabi%2Fandroidfilepicker)](https://jitpack.io/#MajidArabi/AndroidFilePicker)
+[![Downloads](https://img.shields.io/badge/dynamic/json?color=blue&label=Downloads&query=month&url=https%3A%2F%2Fjitpack.io%2Fapi%2Fdownloads%2Fcom.github.majidarabi%2Fandroidfilepicker)](https://jitpack.io/#MajidArabi/AndroidFilePicker)
 [![Stars](https://img.shields.io/github/stars/MajidArabi/AndroidFilePicker)](https://github.com/MajidArabi/AndroidFilePicker/stargazers)
 [![API](https://img.shields.io/badge/API-21%2B-blue.svg?style=flat)](https://android-arsenal.com/api?level=21)
 [![ktlint](https://img.shields.io/badge/code%20style-%E2%9D%A4-FF4081.svg)](https://ktlint.github.io/)
