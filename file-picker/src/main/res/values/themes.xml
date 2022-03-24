@@ -1,13 +1,11 @@
 <resources>
-    <!-- Base application theme. -->
-    <style name="Theme.FilePickerLibrary" parent="Theme.MaterialComponents.Light.NoActionBar">
-    </style>
 
     <style name="BottomSheetDialog" parent="Theme.Design.Light.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/CustomBottomSheet</item>
     </style>
 
     <style name="CustomBottomSheet" parent="Widget.MaterialComponents.BottomSheet">
+        <item name="android:backgroundTint">@android:color/white</item>
         <item name="shapeAppearanceOverlay">@style/CustomShapeAppearanceBottomSheetDialog</item>
     </style>
 

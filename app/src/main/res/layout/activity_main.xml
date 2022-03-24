@@ -7,11 +7,50 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/settings_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <RadioGroup
+            android:id="@+id/radio_groups"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Type : "
+                android:textSize="22sp" />
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Image" />
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Video" />
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Audio" />
+
+        </RadioGroup>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_files"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/btn_open_files"
+        android:layout_below="@+id/settings_container"
         android:clipToPadding="false"
         android:layoutDirection="rtl"
         android:padding="2dp"
@@ -34,16 +73,5 @@
         android:textSize="22sp"
         app:backgroundTint="@color/purple_700"
         app:cornerRadius="16dp" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/btn_open_files"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="16dp"
-        app:backgroundTint="@color/purple_700"
-        app:srcCompat="@drawable/ic_chevron_right"
-        app:tint="@color/white" />
 
 </RelativeLayout>

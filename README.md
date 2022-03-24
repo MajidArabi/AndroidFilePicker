@@ -6,12 +6,12 @@
 [![Latestver](https://lv.binarybabel.org/catalog-api/gradle/latest.svg?v=7.2)](https://lv.binarybabel.org/catalog/gradle/latest)
 [![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
 
-## Simple, Powerful and Beautiful Android Image or Video Picker 😎
+## Simple, Powerful and Beautiful Android Image/Video/Audio Picker 😎
 **Features** 😍
  - No need check storage permission 😉
  - Single and multiple selection
  - Supported RTL and LTR list direction (default=LTR)
- - Supported image and video (default=image)
+ - Supported image, video or audio (default=image)
  - Supported custom title
  - Supported custom colors
  - Supported dynamic span count (default=2)
@@ -23,7 +23,7 @@
 
 | Image | Image | Video
 |--|--|--|
-| <img src="https://github.com/MajidArabi/FilePicker/blob/master/screenshots/image-2col-full.jpg" width="250" /> | <img src="https://github.com/MajidArabi/FilePicker/blob/master/screenshots/image-3col.jpg" width="250" /> | <img src="https://github.com/MajidArabi/FilePicker/blob/master/screenshots/video-2col-full.jpg" width="250" />
+| <img src="https://github.com/MajidArabi/FilePicker/blob/master/screenshots/image.png" width="250" /> | <img src="https://github.com/MajidArabi/FilePicker/blob/master/screenshots/video.png" width="250" /> | <img src="https://github.com/MajidArabi/FilePicker/blob/master/screenshots/audio.png" width="250" />
 
 ## Download
 

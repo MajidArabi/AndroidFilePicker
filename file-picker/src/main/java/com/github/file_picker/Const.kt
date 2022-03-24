@@ -12,5 +12,6 @@ enum class ListDirection : Parcelable {
 @Parcelize
 enum class FileType : Parcelable {
     VIDEO,
-    IMAGE
+    IMAGE,
+    AUDIO,
 }

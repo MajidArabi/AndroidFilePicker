@@ -1,46 +1,56 @@
 package com.github.file_picker.extension
 
-import android.app.Activity
-import android.provider.MediaStore
+import androidx.appcompat.app.AppCompatActivity
+import com.github.file_picker.FilePicker
 import com.github.file_picker.FileType
-import java.io.File
-
+import com.github.file_picker.ListDirection
+import com.github.file_picker.listener.OnItemClickListener
+import com.github.file_picker.listener.OnSubmitClickListener
+import com.github.file_picker.model.Media
 
 /**
- * Get storage files path
+ * Show file picker
  *
- * @return list of file path, ex: /storage/0/emulated/download/image.jpg
+ * @param title
+ * @param titleTextColor
+ * @param submitText
+ * @param submitTextColor
+ * @param accentColor
+ * @param fileType
+ * @param listDirection
+ * @param cancellable
+ * @param gridSpanCount
+ * @param limitItemSelection
+ * @param selectedFiles
+ * @param onSubmitClickListener
+ * @param onItemClickListener
  */
-fun Activity.getStorageFiles(
-    fileType: FileType = FileType.IMAGE
-): List<File> {
-
-    val media = when (fileType) {
-        FileType.VIDEO -> MediaStore.Video.Media.EXTERNAL_CONTENT_URI
-        FileType.IMAGE -> MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-    }
-
-    val columns = arrayOf(MediaStore.Images.Media.DATA, MediaStore.Images.Media._ID)
-    val cursor = contentResolver.query(
-        media,
-        columns,
-        null,
-        null,
-        MediaStore.Images.ImageColumns.DATE_MODIFIED + " DESC"
-    )
-    //Total number of images
-    val count = cursor?.count ?: return arrayListOf()
-
-    //Create an array to store path to all the images
-    val files = arrayListOf<File>()
-
-    for (i in 0 until count) {
-        cursor.moveToPosition(i)
-        val dataColumnIndex = cursor.getColumnIndex(MediaStore.Images.Media.DATA)
-        //Store the path of the image
-        files.add(File(cursor.getString(dataColumnIndex)))
-    }
-    // The cursor should be freed up after use with close()
-    cursor.close()
-    return files
-}
+fun AppCompatActivity.showFilePicker(
+    title: String = FilePicker.DEFAULT_TITLE,
+    titleTextColor: Int = FilePicker.DEFAULT_TITLE_TEXT_COLOR,
+    submitText: String = FilePicker.DEFAULT_SUBMIT_TEXT,
+    submitTextColor: Int = FilePicker.DEFAULT_SUBMIT_TEXT_COLOR,
+    accentColor: Int = FilePicker.DEFAULT_ACCENT_COLOR,
+    fileType: FileType = FilePicker.DEFAULT_FILE_TYPE,
+    listDirection: ListDirection = FilePicker.DEFAULT_LIST_DIRECTION,
+    cancellable: Boolean = FilePicker.DEFAULT_CANCELABLE,
+    gridSpanCount: Int = FilePicker.DEFAULT_SPAN_COUNT,
+    limitItemSelection: Int = FilePicker.DEFAULT_LIMIT_COUNT,
+    selectedFiles: ArrayList<Media> = arrayListOf(),
+    onSubmitClickListener: OnSubmitClickListener? = null,
+    onItemClickListener: OnItemClickListener? = null,
+) = FilePicker.Builder(this)
+    .setTitle(title)
+    .setTitleTextColor(titleTextColor)
+    .setSubmitText(submitText)
+    .setSubmitTextColor(submitTextColor)
+    .setAccentColor(accentColor)
+    .setFileType(fileType)
+    .setListDirection(listDirection)
+    .setCancellable(cancellable)
+    .setGridSpanCount(gridSpanCount)
+    .setLimitItemSelection(limitItemSelection)
+    .setSelectedFiles(selectedFiles)
+    .setOnSubmitClickListener(onSubmitClickListener)
+    .setOnItemClickListener(onItemClickListener)
+    .buildAndShow()

@@ -9,9 +9,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -37,15 +37,14 @@ import kotlin.properties.Delegates
  *
  * You can show this modal bottom sheet from your activity like this:
  * <pre>
- *    FilePicker.newInstance(30).show(supportFragmentManager, "dialog")
+ *    FilePicker.Builder([Context]).buildAndShow()
  * </pre>
  */
 class FilePicker private constructor(
     builder: Builder
 ) : BottomSheetDialogFragment() {
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
+    // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
     private var _binding: FilePickerBinding? = null
 
@@ -58,10 +57,10 @@ class FilePicker private constructor(
     private var selectedFiles: List<Media>
     private var fileType: FileType
     private var listDirection: ListDirection
-    private var cancellable by Delegates.notNull<Boolean>()
-    private var gridSpanCount by Delegates.notNull<Int>()
     private var limitCount by Delegates.notNull<Int>()
     private var accentColor by Delegates.notNull<Int>()
+    private var gridSpanCount by Delegates.notNull<Int>()
+    private var cancellable by Delegates.notNull<Boolean>()
 
     private var onItemClickListener: OnItemClickListener?
     private var onSubmitClickListener: OnSubmitClickListener?
@@ -124,10 +123,7 @@ class FilePicker private constructor(
          * @param title
          * @return
          */
-        fun setTitle(title: String): Builder {
-            this.title = title
-            return this
-        }
+        fun setTitle(title: String) = apply { this.title = title }
 
         /**
          * Set title text color
@@ -135,10 +131,7 @@ class FilePicker private constructor(
          * @param color
          * @return
          */
-        fun setTitleTextColor(color: Int): Builder {
-            this.titleTextColor = color
-            return this
-        }
+        fun setTitleTextColor(color: Int) = apply { this.titleTextColor = color }
 
         /**
          * Set submit text
@@ -146,10 +139,7 @@ class FilePicker private constructor(
          * @param text
          * @return
          */
-        fun setSubmitText(text: String): Builder {
-            this.submitText = text
-            return this
-        }
+        fun setSubmitText(text: String) = apply { this.submitText = text }
 
         /**
          * Set submit text color
@@ -157,10 +147,7 @@ class FilePicker private constructor(
          * @param color
          * @return
          */
-        fun setSubmitTextColor(color: Int): Builder {
-            this.submitTextColor = color
-            return this
-        }
+        fun setSubmitTextColor(color: Int) = apply { this.submitTextColor = color }
 
         /**
          * Set accent color
@@ -168,10 +155,7 @@ class FilePicker private constructor(
          * @param color
          * @return
          */
-        fun setAccentColor(color: Int): Builder {
-            this.accentColor = color
-            return this
-        }
+        fun setAccentColor(@ColorInt color: Int) = apply { this.accentColor = color }
 
         /**
          * Set selected files, for show as selected style in list
@@ -179,10 +163,8 @@ class FilePicker private constructor(
          * @param selectedFiles
          * @return
          */
-        fun setSelectedFiles(selectedFiles: List<Media>): Builder {
-            this.selectedFiles = selectedFiles
-            return this
-        }
+        fun setSelectedFiles(selectedFiles: List<Media>) =
+            apply { this.selectedFiles = selectedFiles }
 
         /**
          * Set limit item selection
@@ -190,10 +172,7 @@ class FilePicker private constructor(
          * @param limit the limit item can select
          * @return
          */
-        fun setLimitItemSelection(limit: Int): Builder {
-            this.limitCount = limit
-            return this
-        }
+        fun setLimitItemSelection(limit: Int) = apply { this.limitCount = limit }
 
         /**
          * Set file type
@@ -201,10 +180,7 @@ class FilePicker private constructor(
          * @param fileType the [FileType]
          * @return
          */
-        fun setFileType(fileType: FileType): Builder {
-            this.fileType = fileType
-            return this
-        }
+        fun setFileType(fileType: FileType) = apply { this.fileType = fileType }
 
         /**
          * Set grid span count
@@ -212,10 +188,7 @@ class FilePicker private constructor(
          * @param spanCount the list span count
          * @return
          */
-        fun setGridSpanCount(spanCount: Int): Builder {
-            this.gridSpanCount = spanCount
-            return this
-        }
+        fun setGridSpanCount(spanCount: Int) = apply { this.gridSpanCount = spanCount }
 
         /**
          * Set cancellable
@@ -223,10 +196,7 @@ class FilePicker private constructor(
          * @param cancellable
          * @return
          */
-        fun setCancellable(cancellable: Boolean): Builder {
-            this.cancellable = cancellable
-            return this
-        }
+        fun setCancellable(cancellable: Boolean) = apply { this.cancellable = cancellable }
 
         /**
          * Set list direction
@@ -234,10 +204,8 @@ class FilePicker private constructor(
          * @param listDirection [ListDirection]
          * @return
          */
-        fun setListDirection(listDirection: ListDirection): Builder {
-            this.listDirection = listDirection
-            return this
-        }
+        fun setListDirection(listDirection: ListDirection) =
+            apply { this.listDirection = listDirection }
 
         /**
          * Set on submit click listener
@@ -245,10 +213,9 @@ class FilePicker private constructor(
          * @param onSubmitClickListener
          * @return
          */
-        fun setOnSubmitClickListener(onSubmitClickListener: OnSubmitClickListener?): Builder {
-            this.onSubmitClickListener = onSubmitClickListener
-            return this
-        }
+        fun setOnSubmitClickListener(
+            onSubmitClickListener: OnSubmitClickListener?
+        ) = apply { this.onSubmitClickListener = onSubmitClickListener }
 
         /**
          * Set on item click listener
@@ -256,18 +223,21 @@ class FilePicker private constructor(
          * @param onItemClickListener
          * @return
          */
-        fun setOnItemClickListener(onItemClickListener: OnItemClickListener?): Builder {
-            this.onItemClickListener = onItemClickListener
-            return this
-        }
+        fun setOnItemClickListener(
+            onItemClickListener: OnItemClickListener?
+        ) = apply { this.onItemClickListener = onItemClickListener }
+
+        /**
+         * Build file picker instance
+         *
+         */
+        fun build() = FilePicker(this)
 
         /**
          * Build file picker and show it
          *
          */
-        fun buildAndShow() = FilePicker(
-            this
-        ).show(
+        fun buildAndShow() = build().show(
             appCompatActivity.supportFragmentManager,
             "file.picker"
         )
@@ -356,10 +326,9 @@ class FilePicker private constructor(
 
     /**
      * Setup views
-     *
      */
     private fun setupViews() = binding.apply {
-        setSubmitButtonDisableColors()
+        changeSubmitButtonState()
         setupRecyclerView(rvFiles)
         setFixedSubmitButton()
         showSelectedCount()
@@ -400,18 +369,17 @@ class FilePicker private constructor(
             limitSelectionCount = limitCount,
             listener = { itemPosition ->
                 if (onItemClickListener != null) {
-                    itemAdapter?.let {
-                        val media = it.currentList[itemPosition]
-                        if (media != null) {
-                            onItemClickListener?.onClick(media, itemPosition, it)
-                        }
+                    if (itemAdapter == null) return@ItemAdapter
+                    val media = itemAdapter?.currentList?.get(itemPosition)
+                    if (media != null) {
+                        onItemClickListener?.onClick(media, itemPosition, itemAdapter!!)
                     }
                 } else {
                     itemAdapter?.setSelected(itemPosition)
                 }
 
                 showSelectedCount()
-                setButtonEnabled()
+                changeSubmitButtonState()
             }
         )
         rvFiles.apply {
@@ -425,37 +393,16 @@ class FilePicker private constructor(
     }
 
     /**
-     * Set button enabled
-     *
+     * change submit button state
+     * if has selected item change to enable otherwise disable it
      */
-    private fun setButtonEnabled() = view?.post {
-        binding.apply {
-            val hasSelected = hasSelectedItem()
-            btnSubmit.apply {
-                isEnabled = hasSelected
-                if (isEnabled) {
-                    setSubmitButtonEnableColors()
-                } else {
-                    setSubmitButtonDisableColors()
-                }
-            }
+    private fun changeSubmitButtonState() = binding.btnSubmit.apply {
+        isEnabled = hasSelectedItem()
+        if (isEnabled) {
+            setTextColor(submitTextColor)
+            setBackgroundColor(accentColor)
+            return@apply
         }
-    }
-
-    /**
-     * Set submit button enable colors
-     *
-     */
-    private fun setSubmitButtonEnableColors() = binding.btnSubmit.apply {
-        setTextColor(submitTextColor)
-        setBackgroundColor(accentColor)
-    }
-
-    /**
-     * Set submit button disable colors
-     *
-     */
-    private fun setSubmitButtonDisableColors() = binding.btnSubmit.apply {
         setTextColor(Color.GRAY)
         setBackgroundColor(Color.LTGRAY)
     }
@@ -466,22 +413,21 @@ class FilePicker private constructor(
      */
     private fun loadFiles() = CoroutineScope(Dispatchers.IO).launch {
         val files = getStorageFiles(fileType = fileType)
-            .map { Media(file = it) }
+            .map { Media(file = it, type = fileType) }
 
         selectedFiles.forEach { media ->
-            files.forEach {
-                if (it.id == media.id) {
-                    it.isSelected = media.isSelected
-                }
+            val selectedMedia = files.find { it.id == media.id }
+            if (selectedMedia != null) {
+                selectedMedia.isSelected = media.isSelected
             }
         }
 
         requireActivity().runOnUiThread {
             itemAdapter?.submitList(files)
-            binding.progress.isVisible = false
-            setFixedSubmitButton()
             showSelectedCount()
-            setButtonEnabled()
+            setFixedSubmitButton()
+            changeSubmitButtonState()
+            binding.progress.isVisible = false
         }
     }
 
@@ -526,71 +472,4 @@ class FilePicker private constructor(
         private var isShown: Boolean = false
     }
 
-}
-
-fun AppCompatActivity.showFilePicker(
-    title: String = FilePicker.DEFAULT_TITLE,
-    titleTextColor: Int = FilePicker.DEFAULT_TITLE_TEXT_COLOR,
-    submitText: String = FilePicker.DEFAULT_SUBMIT_TEXT,
-    submitTextColor: Int = FilePicker.DEFAULT_SUBMIT_TEXT_COLOR,
-    accentColor: Int = FilePicker.DEFAULT_ACCENT_COLOR,
-    fileType: FileType = FilePicker.DEFAULT_FILE_TYPE,
-    listDirection: ListDirection = FilePicker.DEFAULT_LIST_DIRECTION,
-    cancellable: Boolean = FilePicker.DEFAULT_CANCELABLE,
-    gridSpanCount: Int = FilePicker.DEFAULT_SPAN_COUNT,
-    limitItemSelection: Int = FilePicker.DEFAULT_LIMIT_COUNT,
-    selectedFiles: ArrayList<Media> = arrayListOf(),
-    onSubmitClickListener: OnSubmitClickListener? = null,
-    onItemClickListener: OnItemClickListener? = null,
-) {
-    FilePicker.Builder(this)
-        .setTitle(title)
-        .setTitleTextColor(titleTextColor)
-        .setSubmitText(submitText)
-        .setSubmitTextColor(submitTextColor)
-        .setAccentColor(accentColor)
-        .setFileType(fileType)
-        .setListDirection(listDirection)
-        .setCancellable(cancellable)
-        .setGridSpanCount(gridSpanCount)
-        .setLimitItemSelection(limitItemSelection)
-        .setSelectedFiles(selectedFiles)
-        .setOnSubmitClickListener(onSubmitClickListener)
-        .setOnItemClickListener(onItemClickListener)
-        .buildAndShow()
-}
-
-fun Fragment.showFilePicker(
-    title: String = FilePicker.DEFAULT_TITLE,
-    titleTextColor: Int = FilePicker.DEFAULT_TITLE_TEXT_COLOR,
-    submitText: String = FilePicker.DEFAULT_SUBMIT_TEXT,
-    submitTextColor: Int = FilePicker.DEFAULT_SUBMIT_TEXT_COLOR,
-    accentColor: Int = FilePicker.DEFAULT_ACCENT_COLOR,
-    fileType: FileType = FilePicker.DEFAULT_FILE_TYPE,
-    listDirection: ListDirection = FilePicker.DEFAULT_LIST_DIRECTION,
-    cancellable: Boolean = FilePicker.DEFAULT_CANCELABLE,
-    gridSpanCount: Int = FilePicker.DEFAULT_SPAN_COUNT,
-    limitItemSelection: Int = FilePicker.DEFAULT_LIMIT_COUNT,
-    selectedFiles: ArrayList<Media> = arrayListOf(),
-    onSubmitClickListener: OnSubmitClickListener? = null,
-    onItemClickListener: OnItemClickListener? = null,
-) {
-    if (requireActivity() !is AppCompatActivity) {
-        throw IllegalAccessException("Fragment host must be extend AppCompatActivity")
-    }
-    (requireActivity() as AppCompatActivity).showFilePicker(
-        title = title,
-        titleTextColor = titleTextColor,
-        submitText = submitText,
-        submitTextColor = submitTextColor,
-        accentColor = accentColor,
-        fileType = fileType,
-        listDirection = listDirection,
-        cancellable = cancellable,
-        gridSpanCount = gridSpanCount,
-        limitItemSelection = limitItemSelection,
-        selectedFiles = selectedFiles,
-        onSubmitClickListener = onSubmitClickListener,
-        onItemClickListener = onItemClickListener,
-    )
 }

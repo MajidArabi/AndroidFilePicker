@@ -15,6 +15,7 @@
         app:cardCornerRadius="8dp"
         app:cardPreventCornerOverlap="false">
 
+        <!-- media image -->
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/iv_image"
             android:layout_width="match_parent"
@@ -22,8 +23,32 @@
             android:layout_gravity="center"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
+            android:alpha=".75"
             tools:srcCompat="@tools:sample/avatars" />
 
+        <!-- error icon -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_error_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:alpha=".5"
+            app:cardBackgroundColor="@android:color/darker_gray"
+            app:cardCornerRadius="48dp"
+            app:cardElevation="0dp"
+            app:cardPreventCornerOverlap="false">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_error_icon"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:layout_margin="16dp"
+                tools:srcCompat="@drawable/ic_audiotrack" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- checked transparent color -->
         <FrameLayout
             android:id="@+id/frame_checked"
             android:layout_width="match_parent"
@@ -31,6 +56,7 @@
             android:alpha=".45"
             android:background="@android:color/black" />
 
+        <!-- checked icon -->
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/iv_checked"
             android:layout_width="wrap_content"
@@ -39,8 +65,10 @@
             android:alpha=".85"
             android:scaleType="centerInside"
             app:srcCompat="@drawable/ic_check"
-            app:tint="@android:color/white" />
+            app:tint="@android:color/white"
+            tools:visibility="gone" />
 
+        <!-- media title -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -64,6 +92,7 @@
 
         </com.google.android.material.card.MaterialCardView>
 
+        <!-- bottom information -->
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -94,7 +123,6 @@
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/play_icon_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="4dp"
@@ -104,11 +132,12 @@
                 app:cardPreventCornerOverlap="false">
 
                 <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iv_media_icon"
                     android:layout_width="16dp"
                     android:layout_height="16dp"
                     android:layout_gravity="center"
-                    app:srcCompat="@drawable/ic_play"
-                    app:tint="@android:color/black" />
+                    android:padding="2.5dp"
+                    tools:srcCompat="@drawable/ic_play" />
 
             </com.google.android.material.card.MaterialCardView>
 

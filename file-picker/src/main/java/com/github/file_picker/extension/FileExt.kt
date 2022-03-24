@@ -1,5 +1,8 @@
 package com.github.file_picker.extension
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.media.MediaMetadataRetriever
 import java.io.File
 
 val File.size get() = if (!exists()) 0.0 else length().toDouble()
@@ -34,4 +37,26 @@ fun File.pathName(): CharSequence {
         }
     }
     return ""
+}
+
+/**
+ * Is video
+ */
+val File.isVideo
+    get() = this.name.isVideo()
+
+/**
+ * Get music cover art
+ *
+ * @return
+ */
+fun File.getMusicCoverArt(): Bitmap? {
+    val mData = MediaMetadataRetriever()
+    mData.setDataSource(path)
+    return try {
+        val art = mData.embeddedPicture
+        BitmapFactory.decodeByteArray(art, 0, art?.size ?: 0)
+    } catch (e: Exception) {
+        null
+    }
 }

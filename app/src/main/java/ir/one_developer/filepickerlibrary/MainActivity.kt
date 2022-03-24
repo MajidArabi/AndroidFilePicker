@@ -1,12 +1,12 @@
 package ir.one_developer.filepickerlibrary
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import com.github.file_picker.FileType
+import com.github.file_picker.adapter.ItemAdapter
 import com.github.file_picker.listener.OnItemClickListener
 import com.github.file_picker.listener.OnSubmitClickListener
-import com.github.file_picker.adapter.ItemAdapter
 import com.github.file_picker.model.Media
 import com.github.file_picker.showFilePicker
 import ir.one_developer.filepickerlibrary.databinding.ActivityMainBinding
@@ -16,10 +16,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var adapter: FileAdapter
     private val selectedFiles = arrayListOf<Media>()
     private lateinit var binding: ActivityMainBinding
-
-    companion object {
-        private const val TAG = "MainActivity"
-    }
+    
+    private var fileType: FileType = FileType.IMAGE
+    private var accentColor: Int = R.color.purple_500
+    private var spanCount: Int = 2
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,16 +34,35 @@ class MainActivity : AppCompatActivity() {
         btnOpenFiles.setOnClickListener {
             showFiles()
         }
-        fab.setOnClickListener {
-            startActivity(Intent(this@MainActivity, JavaActivity::class.java))
+        radioGroups.setOnCheckedChangeListener { _, i ->
+            fileType = when (i) {
+                1 -> {
+                    spanCount = 2
+                    accentColor = R.color.purple_500
+                    FileType.IMAGE
+                }
+                2 -> {
+                    spanCount = 2
+                    accentColor = R.color.pink_500
+                    FileType.VIDEO
+                }
+                3 -> {
+                    spanCount = 3
+                    accentColor = R.color.blue_500
+                    FileType.AUDIO
+                }
+                else -> FileType.IMAGE
+            }
         }
     }
 
     private fun showFiles(): Unit = showFilePicker(
+        fileType = fileType,
         limitItemSelection = 2,
+        gridSpanCount = spanCount,
         selectedFiles = selectedFiles,
-        accentColor = ContextCompat.getColor(this@MainActivity, R.color.purple_700),
-        titleTextColor = ContextCompat.getColor(this@MainActivity, R.color.purple_700),
+        accentColor = ContextCompat.getColor(this@MainActivity, accentColor),
+        titleTextColor = ContextCompat.getColor(this@MainActivity, accentColor),
         onSubmitClickListener = object : OnSubmitClickListener {
             override fun onClick(files: List<Media>) {
                 adapter.submitList(files)
