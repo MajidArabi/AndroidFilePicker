@@ -21,7 +21,7 @@
 
 ## Screenshots
 
-| Image | Image | Video
+| Image | Video | Audio
 |--|--|--|
 | <img src="https://github.com/MajidArabi/FilePicker/blob/master/screenshots/image.png" width="250" /> | <img src="https://github.com/MajidArabi/FilePicker/blob/master/screenshots/video.png" width="250" /> | <img src="https://github.com/MajidArabi/FilePicker/blob/master/screenshots/audio.png" width="250" />
 
