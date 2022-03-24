@@ -5,10 +5,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.github.file_picker.FileType
 import com.github.file_picker.adapter.ItemAdapter
+import com.github.file_picker.extension.showFilePicker
 import com.github.file_picker.listener.OnItemClickListener
 import com.github.file_picker.listener.OnSubmitClickListener
 import com.github.file_picker.model.Media
-import com.github.file_picker.showFilePicker
 import ir.one_developer.filepickerlibrary.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {

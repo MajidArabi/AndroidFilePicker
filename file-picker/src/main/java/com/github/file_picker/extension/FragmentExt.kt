@@ -8,7 +8,6 @@ import com.github.file_picker.ListDirection
 import com.github.file_picker.listener.OnItemClickListener
 import com.github.file_picker.listener.OnSubmitClickListener
 import com.github.file_picker.model.Media
-import com.github.file_picker.showFilePicker
 import java.io.File
 
 /**
