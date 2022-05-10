@@ -37,28 +37,35 @@ class ItemAdapter(
     fun setSelected(position: Int) {
         if (limitSelectionCount > 1) {
             val item = getItem(position)
+            val selectedItems = currentList.filter { it.isSelected }
+            val selectedItemCount = selectedItems.size
 
             if (item.isSelected) {
-                item.isSelected = !item.isSelected
+                item.isSelected = false
+                selectedItems.forEach {
+                    if (it.order > 1) it.order -= 1
+                    notifyItemChanged(currentList.indexOf(it))
+                }
                 notifyItemChanged(position)
                 return
             }
 
-            if (currentList.filter { it.isSelected }.size < limitSelectionCount) {
-                item.isSelected = !item.isSelected
+            if (selectedItemCount < limitSelectionCount) {
+                item.isSelected = true
+                item.order = selectedItemCount + 1
                 notifyItemChanged(position)
             }
-
-        } else {
-            if (!currentList.isValidPosition(lastSelectedPosition)) {
-                lastSelectedPosition = position
-            }
-            getItem(lastSelectedPosition).isSelected = false
-            notifyItemChanged(lastSelectedPosition)
-            lastSelectedPosition = position
-            getItem(lastSelectedPosition).isSelected = true
-            notifyItemChanged(lastSelectedPosition)
+            return
         }
+
+        if (!currentList.isValidPosition(lastSelectedPosition)) {
+            lastSelectedPosition = position
+        }
+        getItem(lastSelectedPosition).isSelected = false
+        notifyItemChanged(lastSelectedPosition)
+        lastSelectedPosition = position
+        getItem(lastSelectedPosition).isSelected = true
+        notifyItemChanged(lastSelectedPosition)
     }
 
     override fun setHasStableIds(hasStableIds: Boolean) {

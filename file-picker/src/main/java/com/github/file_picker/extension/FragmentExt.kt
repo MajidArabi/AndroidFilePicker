@@ -16,7 +16,7 @@ import java.io.File
  * @param permission permission name ex: Manifest.permission.READ_EXTERNAL_STORAGE
  * @return if has permission return true otherwise false
  */
-fun Fragment.hasPermission(
+internal fun Fragment.hasPermission(
     permission: String
 ): Boolean = requireContext().hasPermission(permission)
 
@@ -25,7 +25,7 @@ fun Fragment.hasPermission(
  *
  * @return list of file path, ex: /storage/0/emulated/download/image.jpg
  */
-fun Fragment.getStorageFiles(
+internal fun Fragment.getStorageFiles(
     fileType: FileType = FileType.IMAGE
 ): List<File> = requireContext().getStorageFiles(fileType = fileType)
 

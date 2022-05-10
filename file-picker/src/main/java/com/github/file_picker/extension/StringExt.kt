@@ -5,7 +5,7 @@ package com.github.file_picker.extension
  * ex : https://example.com/video.mp4
  * @return boolean
  */
-fun String?.isVideo(): Boolean {
+internal fun String?.isVideo(): Boolean {
 
     if (this == null) return false
 

@@ -7,6 +7,6 @@ import java.util.*
  *
  * @param numFractionDigits
  */
-fun Number.roundTo(
+internal fun Number.roundTo(
     numFractionDigits: Int = 2
 ) = "%.${numFractionDigits}f".format(this, Locale.ENGLISH)

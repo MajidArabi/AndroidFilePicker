@@ -35,9 +35,12 @@ class ItemVH(
 
     fun bind(item: Media) = binding.apply {
         cardErrorState.isVisible = false
-        tvFileSize.text = item.file.size()
-        ivChecked.isVisible = item.isSelected
+        cardOrder.isVisible = item.isSelected
+        ivChecked.isVisible = item.isSelected && item.order >= 1
         frameChecked.isVisible = item.isSelected
+
+        tvOrder.text = "${item.order}"
+        tvFileSize.text = item.file.size()
 
         val previewImage = when (item.type) {
             FileType.AUDIO -> {

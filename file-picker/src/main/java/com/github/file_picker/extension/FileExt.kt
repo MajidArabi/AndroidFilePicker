@@ -5,18 +5,18 @@ import android.graphics.BitmapFactory
 import android.media.MediaMetadataRetriever
 import java.io.File
 
-val File.size get() = if (!exists()) 0.0 else length().toDouble()
-val File.sizeInKb get() = size / 1024
-val File.sizeInMb get() = sizeInKb / 1024
-val File.sizeInGb get() = sizeInMb / 1024
-val File.sizeInTb get() = sizeInGb / 1024
+internal val File.size get() = if (!exists()) 0.0 else length().toDouble()
+internal val File.sizeInKb get() = size / 1024
+internal val File.sizeInMb get() = sizeInKb / 1024
+internal val File.sizeInGb get() = sizeInMb / 1024
+internal val File.sizeInTb get() = sizeInGb / 1024
 
 /**
  * Format file size
  *
  * @return string ex: 2.35 MB
  */
-fun File.size(): String = when {
+internal fun File.size(): String = when {
     sizeInGb > 1024 -> "${sizeInTb.roundTo()} TB"
     sizeInMb > 1024 -> "${sizeInGb.roundTo()} GB"
     sizeInKb > 1024 -> "${sizeInMb.roundTo()} MB"
@@ -29,7 +29,7 @@ fun File.size(): String = when {
  *
  * @return
  */
-fun File.pathName(): CharSequence {
+internal fun File.pathName(): CharSequence {
     val paths = path.split("/")
     paths.forEachIndexed { index, title ->
         if (index == paths.lastIndex - 1) {
@@ -42,7 +42,7 @@ fun File.pathName(): CharSequence {
 /**
  * Is video
  */
-val File.isVideo
+internal val File.isVideo
     get() = this.name.isVideo()
 
 /**
@@ -50,7 +50,7 @@ val File.isVideo
  *
  * @return
  */
-fun File.getMusicCoverArt(): Bitmap? {
+internal fun File.getMusicCoverArt(): Bitmap? {
     val mData = MediaMetadataRetriever()
     mData.setDataSource(path)
     return try {

@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.github.file_picker.adapter.ItemAdapter
 import com.github.file_picker.extension.getStorageFiles
 import com.github.file_picker.extension.hasPermission
+import com.github.file_picker.extension.size
 import com.github.file_picker.listener.OnItemClickListener
 import com.github.file_picker.listener.OnSubmitClickListener
 import com.github.file_picker.model.Media
@@ -331,7 +332,7 @@ class FilePicker private constructor(
         changeSubmitButtonState()
         setupRecyclerView(rvFiles)
         setFixedSubmitButton()
-        showSelectedCount()
+        updateSelectedCount()
 
         cardLine.setCardBackgroundColor(ColorStateList.valueOf(accentColor))
         progress.indeterminateTintList = ColorStateList.valueOf(accentColor)
@@ -353,7 +354,7 @@ class FilePicker private constructor(
      * Show selected count
      *
      */
-    private fun showSelectedCount() {
+    private fun updateSelectedCount() {
         val selectedCount = getSelectedItems()?.size ?: 0
         binding.tvTitle.text = "$title ($selectedCount/$limitCount)"
     }
@@ -378,7 +379,7 @@ class FilePicker private constructor(
                     itemAdapter?.setSelected(itemPosition)
                 }
 
-                showSelectedCount()
+                updateSelectedCount()
                 changeSubmitButtonState()
             }
         )
@@ -415,16 +416,18 @@ class FilePicker private constructor(
         val files = getStorageFiles(fileType = fileType)
             .map { Media(file = it, type = fileType) }
 
-        selectedFiles.forEach { media ->
-            val selectedMedia = files.find { it.id == media.id }
-            if (selectedMedia != null) {
-                selectedMedia.isSelected = media.isSelected
+        if (selectedFiles.isNotEmpty()) {
+            selectedFiles.forEach { media ->
+                val selectedMedia = files.find { it.id == media.id }
+                if (selectedMedia != null) {
+                    selectedMedia.isSelected = media.isSelected
+                }
             }
         }
 
         requireActivity().runOnUiThread {
             itemAdapter?.submitList(files)
-            showSelectedCount()
+            updateSelectedCount()
             setFixedSubmitButton()
             changeSubmitButtonState()
             binding.progress.isVisible = false
@@ -445,7 +448,7 @@ class FilePicker private constructor(
      * @return
      */
     private fun getSelectedItems(): List<Media>? =
-        itemAdapter?.currentList?.filter { it.isSelected }
+        itemAdapter?.currentList?.filter { it.isSelected }?.sortedBy { it.order }
 
     /**
      * Has selected item

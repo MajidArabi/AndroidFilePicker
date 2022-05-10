@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun showFiles(): Unit = showFilePicker(
         fileType = fileType,
-        limitItemSelection = 2,
+        limitItemSelection = 4,
         gridSpanCount = spanCount,
         selectedFiles = selectedFiles,
         accentColor = ContextCompat.getColor(this@MainActivity, accentColor),

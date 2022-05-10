@@ -53,8 +53,34 @@
             android:id="@+id/frame_checked"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:alpha=".45"
+            android:alpha=".55"
             android:background="@android:color/black" />
+
+        <!-- media title -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_order"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:layout_gravity="center"
+            app:cardBackgroundColor="@android:color/white"
+            app:cardCornerRadius="24dp"
+            app:cardPreventCornerOverlap="false">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_order"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="2dp"
+                android:singleLine="true"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                tools:text="10" />
+
+        </com.google.android.material.card.MaterialCardView>
 
         <!-- checked icon -->
         <androidx.appcompat.widget.AppCompatImageView
@@ -62,11 +88,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:alpha=".85"
+            android:alpha=".95"
             android:scaleType="centerInside"
             app:srcCompat="@drawable/ic_check"
             app:tint="@android:color/white"
-            tools:visibility="gone" />
+            tools:visibility="visible" />
 
         <!-- media title -->
         <com.google.android.material.card.MaterialCardView

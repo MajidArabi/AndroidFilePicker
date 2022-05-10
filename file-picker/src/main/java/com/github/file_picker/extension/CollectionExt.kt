@@ -6,6 +6,6 @@ package com.github.file_picker.extension
  * @param position
  * @return
  */
-fun List<*>.isValidPosition(position: Int): Boolean {
+internal fun List<*>.isValidPosition(position: Int): Boolean {
     return if (isNotEmpty()) position in 0 until size else position >= 0
 }

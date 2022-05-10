@@ -13,7 +13,7 @@ import java.io.File
  * @param permission permission name ex: Manifest.permission.READ_EXTERNAL_STORAGE
  * @return if has permission return true otherwise false
  */
-fun Context.hasPermission(
+internal fun Context.hasPermission(
     permission: String
 ): Boolean = ActivityCompat.checkSelfPermission(
     this,
@@ -25,7 +25,7 @@ fun Context.hasPermission(
  *
  * @return list of file path, ex: /storage/0/emulated/download/image.jpg
  */
-fun Context.getStorageFiles(
+internal fun Context.getStorageFiles(
     fileType: FileType = FileType.IMAGE
 ): List<File> {
 
@@ -53,7 +53,8 @@ fun Context.getStorageFiles(
         cursor.moveToPosition(i)
         val dataColumnIndex = cursor.getColumnIndex(MediaStore.Images.Media.DATA)
         //Store the path of the image
-        files.add(File(cursor.getString(dataColumnIndex)))
+        val file = File(cursor.getString(dataColumnIndex))
+        if (file.size > 0.0) files.add(file)
     }
 
     // The cursor should be freed up after use with close()
