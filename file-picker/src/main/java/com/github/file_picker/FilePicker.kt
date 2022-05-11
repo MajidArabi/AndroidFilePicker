@@ -16,9 +16,10 @@ import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.file_picker.adapter.ItemAdapter
+import com.github.file_picker.extension.collapse
+import com.github.file_picker.extension.expand
 import com.github.file_picker.extension.getStorageFiles
 import com.github.file_picker.extension.hasPermission
-import com.github.file_picker.extension.size
 import com.github.file_picker.listener.OnItemClickListener
 import com.github.file_picker.listener.OnSubmitClickListener
 import com.github.file_picker.model.Media
@@ -49,7 +50,7 @@ class FilePicker private constructor(
     private val binding get() = _binding!!
     private var _binding: FilePickerBinding? = null
 
-    private var itemAdapter: ItemAdapter? = null
+    private var itemsAdapter: ItemAdapter? = null
 
     private var title: String
     private var titleTextColor by Delegates.notNull<Int>()
@@ -340,7 +341,6 @@ class FilePicker private constructor(
             text = title
             setTextColor(titleTextColor)
         }
-
         btnSubmit.apply {
             text = submitText
             setOnClickListener {
@@ -362,35 +362,38 @@ class FilePicker private constructor(
     /**
      * Setup recycler view
      *
-     * @param rvFiles
+     * @param recyclerView
      */
-    private fun setupRecyclerView(rvFiles: RecyclerView) {
-        itemAdapter = ItemAdapter(
+    private fun setupRecyclerView(recyclerView: RecyclerView) {
+        itemsAdapter = ItemAdapter(
             accentColor = accentColor,
             limitSelectionCount = limitCount,
             listener = { itemPosition ->
-                if (onItemClickListener != null) {
-                    if (itemAdapter == null) return@ItemAdapter
-                    val media = itemAdapter?.currentList?.get(itemPosition)
-                    if (media != null) {
-                        onItemClickListener?.onClick(media, itemPosition, itemAdapter!!)
-                    }
-                } else {
-                    itemAdapter?.setSelected(itemPosition)
-                }
-
+                setupOnItemClickListener(itemPosition)
                 updateSelectedCount()
                 changeSubmitButtonState()
             }
         )
-        rvFiles.apply {
+        recyclerView.apply {
             layoutDirection = when (listDirection) {
                 ListDirection.LTR -> RecyclerView.LAYOUT_DIRECTION_LTR
                 ListDirection.RTL -> RecyclerView.LAYOUT_DIRECTION_RTL
             }
             layoutManager = GridLayoutManager(requireContext(), gridSpanCount)
-            adapter = itemAdapter
+            adapter = itemsAdapter
         }
+    }
+
+    /**
+     * Setup on item click listener
+     *
+     * @param position
+     */
+    private fun setupOnItemClickListener(position: Int) {
+        if (onItemClickListener == null) return
+        if (itemsAdapter == null) return
+        val media = itemsAdapter?.currentList?.get(position) ?: return
+        onItemClickListener?.onClick(media, position, itemsAdapter!!)
     }
 
     /**
@@ -426,7 +429,7 @@ class FilePicker private constructor(
         }
 
         requireActivity().runOnUiThread {
-            itemAdapter?.submitList(files)
+            itemsAdapter?.submitList(files)
             updateSelectedCount()
             setFixedSubmitButton()
             changeSubmitButtonState()
@@ -448,7 +451,7 @@ class FilePicker private constructor(
      * @return
      */
     private fun getSelectedItems(): List<Media>? =
-        itemAdapter?.currentList?.filter { it.isSelected }?.sortedBy { it.order }
+        itemsAdapter?.currentList?.filter { it.isSelected }?.sortedBy { it.order }
 
     /**
      * Has selected item

@@ -18,10 +18,11 @@ class ItemAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ItemVH(
         listener = listener,
         accentColor = accentColor,
+        limitSelectionCount = limitSelectionCount,
         binding = ItemLayoutBinding.inflate(
-            LayoutInflater.from(
-                parent.context
-            ), parent, false
+            LayoutInflater.from(parent.context),
+            parent,
+            false
         )
     )
 
@@ -42,11 +43,11 @@ class ItemAdapter(
 
             if (item.isSelected) {
                 item.isSelected = false
+                notifyItemChanged(position)
                 selectedItems.forEach {
                     if (it.order > 1) it.order -= 1
                     notifyItemChanged(currentList.indexOf(it))
                 }
-                notifyItemChanged(position)
                 return
             }
 
