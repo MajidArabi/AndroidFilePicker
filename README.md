@@ -56,7 +56,7 @@ Step 2. Add the dependency
             }
         },
         onItemClickListener = object : OnItemClickListener {
-            override fun onClick(media: Media, position: Int, adapter: ItemAdapter) {
+            override fun onClick(media: Media, position: Int, adapter: FilePickerAdapter) {
                 if (!media.file.isDirectory) {
                     adapter.setSelected(position)
                 }
