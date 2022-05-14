@@ -18,10 +18,11 @@ import com.github.file_picker.model.Media
 import ir.one_developer.file_picker.R
 import ir.one_developer.file_picker.databinding.ItemLayoutBinding
 
-class ItemVH(
+internal class ItemVH(
     private val listener: ((Int) -> Unit)?,
     private val binding: ItemLayoutBinding,
-    private val accentColor: Int
+    private val accentColor: Int,
+    private val limitSelectionCount: Int
 ) : RecyclerView.ViewHolder(binding.root) {
 
     init {
@@ -35,11 +36,14 @@ class ItemVH(
 
     fun bind(item: Media) = binding.apply {
         cardErrorState.isVisible = false
-        tvFileSize.text = item.file.size()
-        ivChecked.isVisible = item.isSelected
         frameChecked.isVisible = item.isSelected
+        cardOrder.isVisible = item.isSelected && limitSelectionCount > 1
+        ivChecked.isVisible = item.isSelected && limitSelectionCount == 1
 
-        val previewImage = when (item.type) {
+        tvOrder.text = "${item.order}"
+        tvFileSize.text = item.file.size()
+
+        val previewImage: Any? = when (item.type) {
             FileType.AUDIO -> {
                 tvPath.text = item.file.name
                 ivMediaIcon.setImageResource(R.drawable.ic_audiotrack)
@@ -59,6 +63,8 @@ class ItemVH(
 
         Glide.with(ivImage)
             .load(previewImage)
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
+            .transition(DrawableTransitionOptions.withCrossFade())
             .listener(object : RequestListener<Drawable> {
                 override fun onLoadFailed(
                     e: GlideException?,
@@ -81,8 +87,6 @@ class ItemVH(
                 }
 
             })
-            .diskCacheStrategy(DiskCacheStrategy.NONE)
-            .transition(DrawableTransitionOptions.withCrossFade())
             .into(ivImage)
     }
 

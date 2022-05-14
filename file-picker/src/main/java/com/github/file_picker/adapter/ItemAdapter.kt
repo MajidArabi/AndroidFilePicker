@@ -9,19 +9,20 @@ import com.github.file_picker.extension.isValidPosition
 import com.github.file_picker.model.Media
 import ir.one_developer.file_picker.databinding.ItemLayoutBinding
 
-class ItemAdapter(
+internal class ItemAdapter(
     private var accentColor: Int = FilePicker.DEFAULT_ACCENT_COLOR,
     private var limitSelectionCount: Int = FilePicker.DEFAULT_LIMIT_COUNT,
     private var listener: ((Int) -> Unit)? = null
-) : ListAdapter<Media, ItemVH>(COMPARATOR) {
+) : ListAdapter<Media, ItemVH>(COMPARATOR), FilePickerAdapter {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ItemVH(
         listener = listener,
         accentColor = accentColor,
+        limitSelectionCount = limitSelectionCount,
         binding = ItemLayoutBinding.inflate(
-            LayoutInflater.from(
-                parent.context
-            ), parent, false
+            LayoutInflater.from(parent.context),
+            parent,
+            false
         )
     )
 
@@ -34,31 +35,40 @@ class ItemAdapter(
      *
      * @param position the selected item position
      */
-    fun setSelected(position: Int) {
+    override fun setSelected(position: Int) {
         if (limitSelectionCount > 1) {
             val item = getItem(position)
+            val selectedItems = currentList.filter { it.isSelected && it.id != item.id }
+            val selectedItemCount = selectedItems.size
 
             if (item.isSelected) {
-                item.isSelected = !item.isSelected
+                item.isSelected = false
                 notifyItemChanged(position)
+                selectedItems.forEach { media ->
+                    if (media.order > item.order) {
+                        media.order--
+                        notifyItemChanged(currentList.indexOf(media))
+                    }
+                }
                 return
             }
 
-            if (currentList.filter { it.isSelected }.size < limitSelectionCount) {
-                item.isSelected = !item.isSelected
+            if (selectedItemCount < limitSelectionCount) {
+                item.isSelected = true
+                item.order = selectedItemCount + 1
                 notifyItemChanged(position)
             }
-
-        } else {
-            if (!currentList.isValidPosition(lastSelectedPosition)) {
-                lastSelectedPosition = position
-            }
-            getItem(lastSelectedPosition).isSelected = false
-            notifyItemChanged(lastSelectedPosition)
-            lastSelectedPosition = position
-            getItem(lastSelectedPosition).isSelected = true
-            notifyItemChanged(lastSelectedPosition)
+            return
         }
+
+        if (!currentList.isValidPosition(lastSelectedPosition)) {
+            lastSelectedPosition = position
+        }
+        getItem(lastSelectedPosition).isSelected = false
+        notifyItemChanged(lastSelectedPosition)
+        lastSelectedPosition = position
+        getItem(lastSelectedPosition).isSelected = true
+        notifyItemChanged(lastSelectedPosition)
     }
 
     override fun setHasStableIds(hasStableIds: Boolean) {

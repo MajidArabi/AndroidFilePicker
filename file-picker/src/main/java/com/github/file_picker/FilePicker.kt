@@ -48,7 +48,7 @@ class FilePicker private constructor(
     private val binding get() = _binding!!
     private var _binding: FilePickerBinding? = null
 
-    private var itemAdapter: ItemAdapter? = null
+    private var itemsAdapter: ItemAdapter? = null
 
     private var title: String
     private var titleTextColor by Delegates.notNull<Int>()
@@ -331,7 +331,7 @@ class FilePicker private constructor(
         changeSubmitButtonState()
         setupRecyclerView(rvFiles)
         setFixedSubmitButton()
-        showSelectedCount()
+        updateSelectedCount()
 
         cardLine.setCardBackgroundColor(ColorStateList.valueOf(accentColor))
         progress.indeterminateTintList = ColorStateList.valueOf(accentColor)
@@ -339,7 +339,6 @@ class FilePicker private constructor(
             text = title
             setTextColor(titleTextColor)
         }
-
         btnSubmit.apply {
             text = submitText
             setOnClickListener {
@@ -353,7 +352,7 @@ class FilePicker private constructor(
      * Show selected count
      *
      */
-    private fun showSelectedCount() {
+    private fun updateSelectedCount() {
         val selectedCount = getSelectedItems()?.size ?: 0
         binding.tvTitle.text = "$title ($selectedCount/$limitCount)"
     }
@@ -361,35 +360,38 @@ class FilePicker private constructor(
     /**
      * Setup recycler view
      *
-     * @param rvFiles
+     * @param recyclerView
      */
-    private fun setupRecyclerView(rvFiles: RecyclerView) {
-        itemAdapter = ItemAdapter(
+    private fun setupRecyclerView(recyclerView: RecyclerView) {
+        itemsAdapter = ItemAdapter(
             accentColor = accentColor,
             limitSelectionCount = limitCount,
             listener = { itemPosition ->
-                if (onItemClickListener != null) {
-                    if (itemAdapter == null) return@ItemAdapter
-                    val media = itemAdapter?.currentList?.get(itemPosition)
-                    if (media != null) {
-                        onItemClickListener?.onClick(media, itemPosition, itemAdapter!!)
-                    }
-                } else {
-                    itemAdapter?.setSelected(itemPosition)
-                }
-
-                showSelectedCount()
+                setupOnItemClickListener(itemPosition)
+                updateSelectedCount()
                 changeSubmitButtonState()
             }
         )
-        rvFiles.apply {
+        recyclerView.apply {
             layoutDirection = when (listDirection) {
                 ListDirection.LTR -> RecyclerView.LAYOUT_DIRECTION_LTR
                 ListDirection.RTL -> RecyclerView.LAYOUT_DIRECTION_RTL
             }
             layoutManager = GridLayoutManager(requireContext(), gridSpanCount)
-            adapter = itemAdapter
+            adapter = itemsAdapter
         }
+    }
+
+    /**
+     * Setup on item click listener
+     *
+     * @param position
+     */
+    private fun setupOnItemClickListener(position: Int) {
+        if (onItemClickListener == null) return
+        if (itemsAdapter == null) return
+        val media = itemsAdapter?.currentList?.get(position) ?: return
+        onItemClickListener?.onClick(media, position, itemsAdapter!!)
     }
 
     /**
@@ -415,16 +417,19 @@ class FilePicker private constructor(
         val files = getStorageFiles(fileType = fileType)
             .map { Media(file = it, type = fileType) }
 
-        selectedFiles.forEach { media ->
-            val selectedMedia = files.find { it.id == media.id }
-            if (selectedMedia != null) {
-                selectedMedia.isSelected = media.isSelected
+        if (selectedFiles.isNotEmpty()) {
+            selectedFiles.forEach { media ->
+                val selectedMedia = files.find { it.id == media.id }
+                if (selectedMedia != null) {
+                    selectedMedia.isSelected = media.isSelected
+                    selectedMedia.order = media.order
+                }
             }
         }
 
         requireActivity().runOnUiThread {
-            itemAdapter?.submitList(files)
-            showSelectedCount()
+            itemsAdapter?.submitList(files)
+            updateSelectedCount()
             setFixedSubmitButton()
             changeSubmitButtonState()
             binding.progress.isVisible = false
@@ -445,7 +450,7 @@ class FilePicker private constructor(
      * @return
      */
     private fun getSelectedItems(): List<Media>? =
-        itemAdapter?.currentList?.filter { it.isSelected }
+        itemsAdapter?.currentList?.filter { it.isSelected }?.sortedBy { it.order }
 
     /**
      * Has selected item

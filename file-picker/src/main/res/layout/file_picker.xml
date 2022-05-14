@@ -60,11 +60,14 @@
 
     </FrameLayout>
 
-    <FrameLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/button_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/white">
+        android:background="@android:color/white"
+        android:clickable="true"
+        android:focusable="true"
+        android:orientation="vertical">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_submit"
@@ -73,13 +76,13 @@
             android:layout_marginHorizontal="24dp"
             android:layout_marginVertical="8dp"
             android:backgroundTint="@android:color/black"
+            android:enabled="false"
             android:paddingVertical="8dp"
             android:textColor="@android:color/white"
             android:textSize="22sp"
-            android:enabled="false"
             app:cornerRadius="16dp"
             tools:text="Submit" />
 
-    </FrameLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
 </androidx.appcompat.widget.LinearLayoutCompat>
