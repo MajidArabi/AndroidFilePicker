@@ -16,8 +16,6 @@ import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.file_picker.adapter.ItemAdapter
-import com.github.file_picker.extension.collapse
-import com.github.file_picker.extension.expand
 import com.github.file_picker.extension.getStorageFiles
 import com.github.file_picker.extension.hasPermission
 import com.github.file_picker.listener.OnItemClickListener
@@ -424,6 +422,7 @@ class FilePicker private constructor(
                 val selectedMedia = files.find { it.id == media.id }
                 if (selectedMedia != null) {
                     selectedMedia.isSelected = media.isSelected
+                    selectedMedia.order = media.order
                 }
             }
         }

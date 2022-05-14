@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.github.file_picker.FileType
-import com.github.file_picker.adapter.ItemAdapter
+import com.github.file_picker.adapter.FilePickerAdapter
 import com.github.file_picker.extension.showFilePicker
 import com.github.file_picker.listener.OnItemClickListener
 import com.github.file_picker.listener.OnSubmitClickListener
@@ -74,7 +74,7 @@ class MainActivity : AppCompatActivity() {
             }
         },
         onItemClickListener = object : OnItemClickListener {
-            override fun onClick(media: Media, position: Int, adapter: ItemAdapter) {
+            override fun onClick(media: Media, position: Int, adapter: FilePickerAdapter) {
                 if (!media.file.isDirectory) {
                     adapter.setSelected(position)
                 }

@@ -18,7 +18,7 @@ import com.github.file_picker.model.Media
 import ir.one_developer.file_picker.R
 import ir.one_developer.file_picker.databinding.ItemLayoutBinding
 
-class ItemVH(
+internal class ItemVH(
     private val listener: ((Int) -> Unit)?,
     private val binding: ItemLayoutBinding,
     private val accentColor: Int,
