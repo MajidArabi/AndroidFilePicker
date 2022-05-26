@@ -29,34 +29,23 @@ internal fun File.size(): String = when {
  *
  * @return
  */
-internal fun File.pathName(): CharSequence {
+internal fun File.lastPathTitle(): CharSequence {
     val paths = path.split("/")
-    paths.forEachIndexed { index, title ->
-        if (index == paths.lastIndex - 1) {
-            return title
-        }
-    }
+    val titleIndex = paths.lastIndex - 1
+    if (titleIndex >= 0) return paths[titleIndex]
     return ""
 }
-
-/**
- * Is video
- */
-internal val File.isVideo
-    get() = this.name.isVideo()
 
 /**
  * Get music cover art
  *
  * @return
  */
-internal fun File.getMusicCoverArt(): Bitmap? {
+internal fun File.getMusicCoverArt(): Bitmap? = try {
     val mData = MediaMetadataRetriever()
     mData.setDataSource(path)
-    return try {
-        val art = mData.embeddedPicture
-        BitmapFactory.decodeByteArray(art, 0, art?.size ?: 0)
-    } catch (e: Exception) {
-        null
-    }
+    val art = mData.embeddedPicture
+    BitmapFactory.decodeByteArray(art, 0, art?.size ?: 0)
+} catch (e: Exception) {
+    null
 }
