@@ -3,5 +3,6 @@
     package="ir.one_developer.file_picker">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <application android:requestLegacyExternalStorage="true"/>
 
 </manifest>

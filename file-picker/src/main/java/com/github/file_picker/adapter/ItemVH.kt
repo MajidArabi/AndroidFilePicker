@@ -12,7 +12,7 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.github.file_picker.FileType
 import com.github.file_picker.extension.getMusicCoverArt
-import com.github.file_picker.extension.pathName
+import com.github.file_picker.extension.lastPathTitle
 import com.github.file_picker.extension.size
 import com.github.file_picker.model.Media
 import ir.one_developer.file_picker.R
@@ -50,12 +50,12 @@ internal class ItemVH(
                 item.file.getMusicCoverArt()
             }
             FileType.IMAGE -> {
-                tvPath.text = item.file.pathName()
+                tvPath.text = item.file.lastPathTitle()
                 ivMediaIcon.setImageResource(R.drawable.ic_image)
                 item.file
             }
             FileType.VIDEO -> {
-                tvPath.text = item.file.pathName()
+                tvPath.text = item.file.lastPathTitle()
                 ivMediaIcon.setImageResource(R.drawable.ic_play)
                 item.file
             }
