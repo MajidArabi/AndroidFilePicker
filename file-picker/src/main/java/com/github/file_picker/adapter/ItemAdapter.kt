@@ -11,6 +11,7 @@ import ir.one_developer.file_picker.databinding.ItemLayoutBinding
 
 internal class ItemAdapter(
     private var accentColor: Int = FilePicker.DEFAULT_ACCENT_COLOR,
+    private var overlayAlpha: Float = FilePicker.DEFAULT_OVERLAY_ALPHA,
     private var limitSelectionCount: Int = FilePicker.DEFAULT_LIMIT_COUNT,
     private var listener: ((Int) -> Unit)? = null
 ) : ListAdapter<Media, ItemVH>(COMPARATOR), FilePickerAdapter {
@@ -18,6 +19,7 @@ internal class ItemAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ItemVH(
         listener = listener,
         accentColor = accentColor,
+        overlayAlpha =overlayAlpha,
         limitSelectionCount = limitSelectionCount,
         binding = ItemLayoutBinding.inflate(
             LayoutInflater.from(parent.context),

@@ -1,5 +1,6 @@
 package com.github.file_picker.extension
 
+import androidx.annotation.FloatRange
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.github.file_picker.FilePicker
@@ -58,6 +59,8 @@ fun Fragment.showFilePicker(
     gridSpanCount: Int = FilePicker.DEFAULT_SPAN_COUNT,
     limitItemSelection: Int = FilePicker.DEFAULT_LIMIT_COUNT,
     selectedFiles: ArrayList<Media> = arrayListOf(),
+    @FloatRange(from = 0.0, to = 1.0)
+    overlayAlpha: Float = FilePicker.DEFAULT_OVERLAY_ALPHA,
     onSubmitClickListener: OnSubmitClickListener? = null,
     onItemClickListener: OnItemClickListener? = null,
 ) {
@@ -76,6 +79,7 @@ fun Fragment.showFilePicker(
         gridSpanCount = gridSpanCount,
         limitItemSelection = limitItemSelection,
         selectedFiles = selectedFiles,
+        overlayAlpha = overlayAlpha,
         onSubmitClickListener = onSubmitClickListener,
         onItemClickListener = onItemClickListener,
     )

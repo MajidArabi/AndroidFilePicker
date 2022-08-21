@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.ColorInt
+import androidx.annotation.FloatRange
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentManager
@@ -61,6 +62,7 @@ class FilePicker private constructor(
     private var accentColor by Delegates.notNull<Int>()
     private var gridSpanCount by Delegates.notNull<Int>()
     private var cancellable by Delegates.notNull<Boolean>()
+    private var overlayAlpha by Delegates.notNull<Float>()
 
     private var onItemClickListener: OnItemClickListener?
     private var onSubmitClickListener: OnSubmitClickListener?
@@ -77,6 +79,7 @@ class FilePicker private constructor(
         this.gridSpanCount = builder.gridSpanCount
         this.limitCount = builder.limitCount
         this.accentColor = builder.accentColor
+        this.overlayAlpha = builder.overlayAlpha
         this.onItemClickListener = builder.onItemClickListener
         this.onSubmitClickListener = builder.onSubmitClickListener
     }
@@ -115,6 +118,8 @@ class FilePicker private constructor(
         var onItemClickListener: OnItemClickListener? = null
             private set
         var onSubmitClickListener: OnSubmitClickListener? = null
+            private set
+        var overlayAlpha: Float = DEFAULT_OVERLAY_ALPHA
             private set
 
         /**
@@ -228,14 +233,21 @@ class FilePicker private constructor(
         ) = apply { this.onItemClickListener = onItemClickListener }
 
         /**
-         * Build file picker instance
+         * Set overlay alpha
          *
+         * @param alpha
+         */
+        fun setOverlayAlpha(
+            alpha: Float
+        ) = apply { this.overlayAlpha = alpha }
+
+        /**
+         * Build file picker instance
          */
         fun build() = FilePicker(this)
 
         /**
          * Build file picker and show it
-         *
          */
         fun buildAndShow() = build().show(
             appCompatActivity.supportFragmentManager,
@@ -365,6 +377,7 @@ class FilePicker private constructor(
     private fun setupRecyclerView(recyclerView: RecyclerView) {
         itemsAdapter = ItemAdapter(
             accentColor = accentColor,
+            overlayAlpha = overlayAlpha,
             limitSelectionCount = limitCount,
             listener = { itemPosition ->
                 setupOnItemClickListener(itemPosition)
@@ -470,6 +483,9 @@ class FilePicker private constructor(
         const val DEFAULT_ACCENT_COLOR = Color.BLACK
         const val DEFAULT_TITLE = "Choose File"
         const val DEFAULT_TITLE_TEXT_COLOR = DEFAULT_ACCENT_COLOR
+
+        @FloatRange(from = 0.0, to = 1.0)
+        const val DEFAULT_OVERLAY_ALPHA = 0.5F
 
         const val DEFAULT_SUBMIT_TEXT = "Submit"
         const val DEFAULT_SUBMIT_TEXT_COLOR = Color.WHITE

@@ -22,12 +22,14 @@ internal class ItemVH(
     private val listener: ((Int) -> Unit)?,
     private val binding: ItemLayoutBinding,
     private val accentColor: Int,
+    private val overlayAlpha: Float,
     private val limitSelectionCount: Int
 ) : RecyclerView.ViewHolder(binding.root) {
 
     init {
         binding.apply {
             frameChecked.setBackgroundColor(accentColor)
+            frameChecked.alpha = overlayAlpha
             card.setOnClickListener {
                 listener?.invoke(bindingAdapterPosition)
             }

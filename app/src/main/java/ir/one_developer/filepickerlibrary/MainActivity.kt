@@ -65,6 +65,7 @@ class MainActivity : AppCompatActivity() {
         limitItemSelection = limit,
         gridSpanCount = spanCount,
         selectedFiles = selectedFiles,
+        overlayAlpha = 0.75f,
         accentColor = ContextCompat.getColor(this@MainActivity, accentColor),
         titleTextColor = ContextCompat.getColor(this@MainActivity, accentColor),
         onSubmitClickListener = object : OnSubmitClickListener {
