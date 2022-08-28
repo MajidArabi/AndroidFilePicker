@@ -15,3 +15,5 @@ enum class FileType : Parcelable {
     IMAGE,
     AUDIO,
 }
+
+const val PAGE_SIZE = 10

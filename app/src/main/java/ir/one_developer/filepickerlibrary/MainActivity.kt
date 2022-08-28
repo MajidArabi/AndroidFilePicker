@@ -8,7 +8,7 @@ import com.github.file_picker.adapter.FilePickerAdapter
 import com.github.file_picker.extension.showFilePicker
 import com.github.file_picker.listener.OnItemClickListener
 import com.github.file_picker.listener.OnSubmitClickListener
-import com.github.file_picker.model.Media
+import com.github.file_picker.data.model.Media
 import ir.one_developer.filepickerlibrary.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -65,6 +65,7 @@ class MainActivity : AppCompatActivity() {
         limitItemSelection = limit,
         gridSpanCount = spanCount,
         selectedFiles = selectedFiles,
+        overlayAlpha = 0.75f,
         accentColor = ContextCompat.getColor(this@MainActivity, accentColor),
         titleTextColor = ContextCompat.getColor(this@MainActivity, accentColor),
         onSubmitClickListener = object : OnSubmitClickListener {

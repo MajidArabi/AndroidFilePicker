@@ -10,17 +10,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.ColorInt
+import androidx.annotation.FloatRange
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentManager
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.file_picker.adapter.ItemAdapter
-import com.github.file_picker.extension.getStorageFiles
+import com.github.file_picker.data.model.Media
+import com.github.file_picker.data.repository.FilesRepository
 import com.github.file_picker.extension.hasPermission
 import com.github.file_picker.listener.OnItemClickListener
 import com.github.file_picker.listener.OnSubmitClickListener
-import com.github.file_picker.model.Media
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -49,6 +51,7 @@ class FilePicker private constructor(
     private var _binding: FilePickerBinding? = null
 
     private var itemsAdapter: ItemAdapter? = null
+    private lateinit var repository: FilesRepository
 
     private var title: String
     private var titleTextColor by Delegates.notNull<Int>()
@@ -61,6 +64,7 @@ class FilePicker private constructor(
     private var accentColor by Delegates.notNull<Int>()
     private var gridSpanCount by Delegates.notNull<Int>()
     private var cancellable by Delegates.notNull<Boolean>()
+    private var overlayAlpha by Delegates.notNull<Float>()
 
     private var onItemClickListener: OnItemClickListener?
     private var onSubmitClickListener: OnSubmitClickListener?
@@ -77,6 +81,7 @@ class FilePicker private constructor(
         this.gridSpanCount = builder.gridSpanCount
         this.limitCount = builder.limitCount
         this.accentColor = builder.accentColor
+        this.overlayAlpha = builder.overlayAlpha
         this.onItemClickListener = builder.onItemClickListener
         this.onSubmitClickListener = builder.onSubmitClickListener
     }
@@ -115,6 +120,8 @@ class FilePicker private constructor(
         var onItemClickListener: OnItemClickListener? = null
             private set
         var onSubmitClickListener: OnSubmitClickListener? = null
+            private set
+        var overlayAlpha: Float = DEFAULT_OVERLAY_ALPHA
             private set
 
         /**
@@ -228,14 +235,21 @@ class FilePicker private constructor(
         ) = apply { this.onItemClickListener = onItemClickListener }
 
         /**
-         * Build file picker instance
+         * Set overlay alpha
          *
+         * @param alpha
+         */
+        fun setOverlayAlpha(
+            alpha: Float
+        ) = apply { this.overlayAlpha = alpha }
+
+        /**
+         * Build file picker instance
          */
         fun build() = FilePicker(this)
 
         /**
          * Build file picker and show it
-         *
          */
         fun buildAndShow() = build().show(
             appCompatActivity.supportFragmentManager,
@@ -257,6 +271,7 @@ class FilePicker private constructor(
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        repository = FilesRepository(requireActivity().application)
         setCancellableDialog(cancellable)
         setupViews()
     }
@@ -365,6 +380,7 @@ class FilePicker private constructor(
     private fun setupRecyclerView(recyclerView: RecyclerView) {
         itemsAdapter = ItemAdapter(
             accentColor = accentColor,
+            overlayAlpha = overlayAlpha,
             limitSelectionCount = limitCount,
             listener = { itemPosition ->
                 setupOnItemClickListener(itemPosition)
@@ -390,7 +406,7 @@ class FilePicker private constructor(
     private fun setupOnItemClickListener(position: Int) {
         if (onItemClickListener == null) return
         if (itemsAdapter == null) return
-        val media = itemsAdapter?.currentList?.get(position) ?: return
+        val media = itemsAdapter?.snapshot()?.items?.get(position) ?: return
         onItemClickListener?.onClick(media, position, itemsAdapter!!)
     }
 
@@ -411,34 +427,29 @@ class FilePicker private constructor(
 
     /**
      * Load files
-     *
      */
     private fun loadFiles() = CoroutineScope(Dispatchers.IO).launch {
-        val files = getStorageFiles(fileType = fileType)
-            .map { Media(file = it, type = fileType) }
-
-        if (selectedFiles.isNotEmpty()) {
-            selectedFiles.forEach { media ->
-                val selectedMedia = files.find { it.id == media.id }
-                if (selectedMedia != null) {
-                    selectedMedia.isSelected = media.isSelected
-                    selectedMedia.order = media.order
+        itemsAdapter?.addLoadStateListener { state ->
+            binding.progress.isVisible = state.source.refresh is LoadState.Loading
+            if (state.source.refresh is LoadState.NotLoading) {
+                selectedFiles.forEach { media ->
+                    itemsAdapter?.snapshot()?.items?.find { it.id == media.id }?.let {
+                        it.isSelected = media.isSelected
+                        it.order = media.order
+                    }
                 }
+                updateSelectedCount()
+                setFixedSubmitButton()
+                changeSubmitButtonState()
             }
         }
-
-        requireActivity().runOnUiThread {
-            itemsAdapter?.submitList(files)
-            updateSelectedCount()
-            setFixedSubmitButton()
-            changeSubmitButtonState()
-            binding.progress.isVisible = false
+        repository.getFiles(fileType = fileType).collect { pagingData ->
+            itemsAdapter?.submitData(pagingData)
         }
     }
 
     /**
      * Submit list
-     *
      */
     private fun submitList() = getSelectedItems()?.let {
         onSubmitClickListener?.onClick(it)
@@ -450,7 +461,7 @@ class FilePicker private constructor(
      * @return
      */
     private fun getSelectedItems(): List<Media>? =
-        itemsAdapter?.currentList?.filter { it.isSelected }?.sortedBy { it.order }
+        itemsAdapter?.snapshot()?.items?.filter { it.isSelected }?.sortedBy { it.order }
 
     /**
      * Has selected item
@@ -470,6 +481,9 @@ class FilePicker private constructor(
         const val DEFAULT_ACCENT_COLOR = Color.BLACK
         const val DEFAULT_TITLE = "Choose File"
         const val DEFAULT_TITLE_TEXT_COLOR = DEFAULT_ACCENT_COLOR
+
+        @FloatRange(from = 0.0, to = 1.0)
+        const val DEFAULT_OVERLAY_ALPHA = 0.5F
 
         const val DEFAULT_SUBMIT_TEXT = "Submit"
         const val DEFAULT_SUBMIT_TEXT_COLOR = Color.WHITE

@@ -6,7 +6,7 @@ import androidx.core.net.toUri
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.github.file_picker.model.Media
+import com.github.file_picker.data.model.Media
 import ir.one_developer.filepickerlibrary.databinding.FileLayoutBinding
 import java.io.File
 

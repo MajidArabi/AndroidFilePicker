@@ -2,22 +2,26 @@ package com.github.file_picker.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.github.file_picker.FilePicker
 import com.github.file_picker.extension.isValidPosition
-import com.github.file_picker.model.Media
+import com.github.file_picker.data.model.Media
 import ir.one_developer.file_picker.databinding.ItemLayoutBinding
+import java.util.Locale.filter
 
 internal class ItemAdapter(
     private var accentColor: Int = FilePicker.DEFAULT_ACCENT_COLOR,
+    private var overlayAlpha: Float = FilePicker.DEFAULT_OVERLAY_ALPHA,
     private var limitSelectionCount: Int = FilePicker.DEFAULT_LIMIT_COUNT,
     private var listener: ((Int) -> Unit)? = null
-) : ListAdapter<Media, ItemVH>(COMPARATOR), FilePickerAdapter {
+) : PagingDataAdapter<Media, ItemVH>(COMPARATOR), FilePickerAdapter {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ItemVH(
         listener = listener,
         accentColor = accentColor,
+        overlayAlpha =overlayAlpha,
         limitSelectionCount = limitSelectionCount,
         binding = ItemLayoutBinding.inflate(
             LayoutInflater.from(parent.context),
@@ -27,7 +31,7 @@ internal class ItemAdapter(
     )
 
     override fun onBindViewHolder(holder: ItemVH, position: Int) {
-        holder.bind(getItem(position))
+        getItem(position)?.let { holder.bind(it) }
     }
 
     /**
@@ -37,8 +41,8 @@ internal class ItemAdapter(
      */
     override fun setSelected(position: Int) {
         if (limitSelectionCount > 1) {
-            val item = getItem(position)
-            val selectedItems = currentList.filter { it.isSelected && it.id != item.id }
+            val item = getItem(position) ?: return
+            val selectedItems = snapshot().items.filter { it.isSelected && it.id != item.id }
             val selectedItemCount = selectedItems.size
 
             if (item.isSelected) {
@@ -47,7 +51,7 @@ internal class ItemAdapter(
                 selectedItems.forEach { media ->
                     if (media.order > item.order) {
                         media.order--
-                        notifyItemChanged(currentList.indexOf(media))
+                        notifyItemChanged(snapshot().items.indexOf(media))
                     }
                 }
                 return
@@ -61,21 +65,15 @@ internal class ItemAdapter(
             return
         }
 
-        if (!currentList.isValidPosition(lastSelectedPosition)) {
+        if (!snapshot().items.isValidPosition(lastSelectedPosition)) {
             lastSelectedPosition = position
         }
-        getItem(lastSelectedPosition).isSelected = false
+        getItem(lastSelectedPosition)?.isSelected = false
         notifyItemChanged(lastSelectedPosition)
         lastSelectedPosition = position
-        getItem(lastSelectedPosition).isSelected = true
+        getItem(lastSelectedPosition)?.isSelected = true
         notifyItemChanged(lastSelectedPosition)
     }
-
-    override fun setHasStableIds(hasStableIds: Boolean) {
-        super.setHasStableIds(true)
-    }
-
-    override fun getItemId(position: Int): Long = getItem(position).id.toLong()
 
     companion object {
         private var lastSelectedPosition = -1

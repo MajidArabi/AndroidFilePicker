@@ -11,10 +11,10 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.github.file_picker.FileType
+import com.github.file_picker.data.model.Media
 import com.github.file_picker.extension.getMusicCoverArt
 import com.github.file_picker.extension.lastPathTitle
 import com.github.file_picker.extension.size
-import com.github.file_picker.model.Media
 import ir.one_developer.file_picker.R
 import ir.one_developer.file_picker.databinding.ItemLayoutBinding
 
@@ -22,12 +22,14 @@ internal class ItemVH(
     private val listener: ((Int) -> Unit)?,
     private val binding: ItemLayoutBinding,
     private val accentColor: Int,
+    private val overlayAlpha: Float,
     private val limitSelectionCount: Int
 ) : RecyclerView.ViewHolder(binding.root) {
 
     init {
         binding.apply {
             frameChecked.setBackgroundColor(accentColor)
+            frameChecked.alpha = overlayAlpha
             card.setOnClickListener {
                 listener?.invoke(bindingAdapterPosition)
             }
@@ -63,7 +65,7 @@ internal class ItemVH(
 
         Glide.with(ivImage)
             .load(previewImage)
-            .diskCacheStrategy(DiskCacheStrategy.NONE)
+            .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
             .transition(DrawableTransitionOptions.withCrossFade())
             .listener(object : RequestListener<Drawable> {
                 override fun onLoadFailed(
@@ -82,10 +84,7 @@ internal class ItemVH(
                     target: Target<Drawable>?,
                     dataSource: DataSource?,
                     isFirstResource: Boolean
-                ): Boolean {
-                    return false
-                }
-
+                ): Boolean = false
             })
             .into(ivImage)
     }
@@ -93,9 +92,10 @@ internal class ItemVH(
     private fun setErrorState(type: FileType) = binding.apply {
         cardErrorState.isVisible = true
         when (type) {
-            FileType.AUDIO -> ivErrorIcon.setImageResource(R.drawable.ic_audiotrack)
-            FileType.IMAGE -> ivErrorIcon.setImageResource(R.drawable.ic_image)
-            FileType.VIDEO -> ivErrorIcon.setImageResource(R.drawable.ic_play)
+            FileType.VIDEO -> Glide.with(ivErrorIcon).load(R.drawable.ic_play).into(ivErrorIcon)
+            FileType.IMAGE -> Glide.with(ivErrorIcon).load(R.drawable.ic_image).into(ivErrorIcon)
+            FileType.AUDIO -> Glide.with(ivErrorIcon).load(R.drawable.ic_audiotrack)
+                .into(ivErrorIcon)
         }
     }
 

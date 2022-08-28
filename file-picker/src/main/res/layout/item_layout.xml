@@ -22,8 +22,8 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:adjustViewBounds="true"
-            android:scaleType="centerCrop"
             android:alpha=".75"
+            android:scaleType="centerCrop"
             tools:srcCompat="@tools:sample/avatars" />
 
         <!-- error icon -->
@@ -53,16 +53,16 @@
             android:id="@+id/frame_checked"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:alpha=".55"
-            android:background="@android:color/black" />
+            android:background="@android:color/black"
+            tools:alpha=".5" />
 
         <!-- media title -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/card_order"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="4dp"
             android:layout_gravity="center"
+            android:layout_margin="4dp"
             app:cardBackgroundColor="@android:color/white"
             app:cardCornerRadius="24dp"
             app:cardPreventCornerOverlap="false">
