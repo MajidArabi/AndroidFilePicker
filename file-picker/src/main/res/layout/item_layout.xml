@@ -22,7 +22,6 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:adjustViewBounds="true"
-            android:alpha=".75"
             android:scaleType="centerCrop"
             tools:srcCompat="@tools:sample/avatars" />
 
