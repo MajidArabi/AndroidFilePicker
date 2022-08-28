@@ -1,4 +1,4 @@
-package com.github.file_picker.model
+package com.github.file_picker.data.model
 
 import android.os.Parcelable
 import com.github.file_picker.FileType

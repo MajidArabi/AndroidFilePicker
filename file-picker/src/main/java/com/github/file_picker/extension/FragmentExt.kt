@@ -6,10 +6,9 @@ import androidx.fragment.app.Fragment
 import com.github.file_picker.FilePicker
 import com.github.file_picker.FileType
 import com.github.file_picker.ListDirection
+import com.github.file_picker.data.model.Media
 import com.github.file_picker.listener.OnItemClickListener
 import com.github.file_picker.listener.OnSubmitClickListener
-import com.github.file_picker.model.Media
-import java.io.File
 
 /**
  * check has runtime permission
@@ -28,7 +27,7 @@ internal fun Fragment.hasPermission(
  */
 internal fun Fragment.getStorageFiles(
     fileType: FileType = FileType.IMAGE
-): List<File> = requireContext().getStorageFiles(fileType = fileType)
+) = requireContext().getStorageFiles(fileType = fileType)
 
 /**
  * Show file picker

@@ -1,10 +1,15 @@
 package com.github.file_picker.extension
 
+import android.content.ContentResolver
 import android.content.Context
 import android.content.pm.PackageManager
+import android.os.Build
+import android.os.Bundle
 import android.provider.MediaStore
 import androidx.core.app.ActivityCompat
 import com.github.file_picker.FileType
+import com.github.file_picker.PAGE_SIZE
+import com.github.file_picker.data.model.Media
 import java.io.File
 
 /**
@@ -26,8 +31,12 @@ internal fun Context.hasPermission(
  * @return list of file path, ex: /storage/0/emulated/download/image.jpg
  */
 internal fun Context.getStorageFiles(
-    fileType: FileType = FileType.IMAGE
-): List<File> {
+    fileType: FileType = FileType.IMAGE,
+    limit: Int = PAGE_SIZE,
+    offset: Int = 0
+): List<Media> {
+
+    val resolver = applicationContext.contentResolver
 
     val media = when (fileType) {
         FileType.VIDEO -> MediaStore.Video.Media.EXTERNAL_CONTENT_URI
@@ -35,26 +44,48 @@ internal fun Context.getStorageFiles(
         FileType.AUDIO -> MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
     }
 
-    val columns = arrayOf(MediaStore.Images.Media.DATA, MediaStore.Images.Media._ID)
-    val cursor = applicationContext.contentResolver.query(
+    val projection = arrayOf(MediaStore.Files.FileColumns.DATA, MediaStore.Files.FileColumns._ID)
+    val modified = MediaStore.Files.FileColumns.DATE_MODIFIED
+
+    val cursor = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        val sortArgs = arrayOf(modified)
+        val bundle = Bundle().apply {
+            putInt(ContentResolver.QUERY_ARG_LIMIT, limit)
+            putInt(ContentResolver.QUERY_ARG_OFFSET, offset)
+            putStringArray(ContentResolver.QUERY_ARG_SORT_COLUMNS, sortArgs)
+            putInt(
+                ContentResolver.QUERY_ARG_SORT_DIRECTION,
+                ContentResolver.QUERY_SORT_DIRECTION_DESCENDING
+            )
+        }
+        resolver.query(
+            media,
+            projection,
+            bundle,
+            null
+        )
+    } else resolver.query(
         media,
-        columns,
+        projection,
         null,
         null,
-        MediaStore.Images.ImageColumns.DATE_MODIFIED + " DESC"
+        "$modified DESC LIMIT $limit OFFSET $offset",
     )
+
     //Total number of images
-    val count = cursor?.count ?: return arrayListOf()
+    val count = cursor?.count ?: return emptyList()
 
     //Create an array to store path to all the images
-    val files = arrayListOf<File>()
+    val files = arrayListOf<Media>()
 
     for (i in 0 until count) {
         cursor.moveToPosition(i)
         val dataColumnIndex = cursor.getColumnIndex(MediaStore.Images.Media.DATA)
         //Store the path of the image
         val file = File(cursor.getString(dataColumnIndex))
-        if (file.size > 0.0) files.add(file)
+        if (file.size > 0.0) {
+            files.add(Media(file = file, type = fileType))
+        }
     }
 
     // The cursor should be freed up after use with close()

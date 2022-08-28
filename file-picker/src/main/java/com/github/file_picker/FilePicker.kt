@@ -14,14 +14,15 @@ import androidx.annotation.FloatRange
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentManager
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.file_picker.adapter.ItemAdapter
-import com.github.file_picker.extension.getStorageFiles
+import com.github.file_picker.data.model.Media
+import com.github.file_picker.data.repository.FilesRepository
 import com.github.file_picker.extension.hasPermission
 import com.github.file_picker.listener.OnItemClickListener
 import com.github.file_picker.listener.OnSubmitClickListener
-import com.github.file_picker.model.Media
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -50,6 +51,7 @@ class FilePicker private constructor(
     private var _binding: FilePickerBinding? = null
 
     private var itemsAdapter: ItemAdapter? = null
+    private lateinit var repository: FilesRepository
 
     private var title: String
     private var titleTextColor by Delegates.notNull<Int>()
@@ -269,6 +271,7 @@ class FilePicker private constructor(
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        repository = FilesRepository(requireActivity().application)
         setCancellableDialog(cancellable)
         setupViews()
     }
@@ -403,7 +406,7 @@ class FilePicker private constructor(
     private fun setupOnItemClickListener(position: Int) {
         if (onItemClickListener == null) return
         if (itemsAdapter == null) return
-        val media = itemsAdapter?.currentList?.get(position) ?: return
+        val media = itemsAdapter?.snapshot()?.items?.get(position) ?: return
         onItemClickListener?.onClick(media, position, itemsAdapter!!)
     }
 
@@ -424,34 +427,29 @@ class FilePicker private constructor(
 
     /**
      * Load files
-     *
      */
     private fun loadFiles() = CoroutineScope(Dispatchers.IO).launch {
-        val files = getStorageFiles(fileType = fileType)
-            .map { Media(file = it, type = fileType) }
-
-        if (selectedFiles.isNotEmpty()) {
-            selectedFiles.forEach { media ->
-                val selectedMedia = files.find { it.id == media.id }
-                if (selectedMedia != null) {
-                    selectedMedia.isSelected = media.isSelected
-                    selectedMedia.order = media.order
+        itemsAdapter?.addLoadStateListener { state ->
+            binding.progress.isVisible = state.source.refresh is LoadState.Loading
+            if (state.source.refresh is LoadState.NotLoading) {
+                selectedFiles.forEach { media ->
+                    itemsAdapter?.snapshot()?.items?.find { it.id == media.id }?.let {
+                        it.isSelected = media.isSelected
+                        it.order = media.order
+                    }
                 }
+                updateSelectedCount()
+                setFixedSubmitButton()
+                changeSubmitButtonState()
             }
         }
-
-        requireActivity().runOnUiThread {
-            itemsAdapter?.submitList(files)
-            updateSelectedCount()
-            setFixedSubmitButton()
-            changeSubmitButtonState()
-            binding.progress.isVisible = false
+        repository.getFiles(fileType = fileType).collect { pagingData ->
+            itemsAdapter?.submitData(pagingData)
         }
     }
 
     /**
      * Submit list
-     *
      */
     private fun submitList() = getSelectedItems()?.let {
         onSubmitClickListener?.onClick(it)
@@ -463,7 +461,7 @@ class FilePicker private constructor(
      * @return
      */
     private fun getSelectedItems(): List<Media>? =
-        itemsAdapter?.currentList?.filter { it.isSelected }?.sortedBy { it.order }
+        itemsAdapter?.snapshot()?.items?.filter { it.isSelected }?.sortedBy { it.order }
 
     /**
      * Has selected item
