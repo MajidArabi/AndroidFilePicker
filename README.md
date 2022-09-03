@@ -13,8 +13,10 @@
  - Supported image, video or audio (default=image)
  - Supported custom title
  - Supported custom colors
+ - Supported custom overlay alpha (default=0.5F)
  - Supported dynamic span count (default=2)
  - Limit max item selection (default=1)
+ - Set Cancellable (default=true)
  - Show file directory
  - Show file size
 
