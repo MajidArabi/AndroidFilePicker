@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    compileSdk 31
+    compileSdk 33
 
     defaultConfig {
         minSdk 21
-        targetSdk 31
+        targetSdk 33
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -70,7 +70,7 @@ afterEvaluate {
                 from components.release
                 groupId = 'com.github.majidarabi'
                 artifactId = 'file-picker'
-                version = '0.2.1'
+                version = '0.2.2'
             }
         }
     }

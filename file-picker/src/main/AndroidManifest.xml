@@ -2,7 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ir.one_developer.file_picker">
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <application android:requestLegacyExternalStorage="true"/>
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
+
+    <application android:requestLegacyExternalStorage="true" />
 
 </manifest>

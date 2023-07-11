@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.DialogInterface
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -263,7 +264,8 @@ class FilePicker private constructor(
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FilePickerBinding.inflate(inflater, container, false)
@@ -278,12 +280,28 @@ class FilePicker private constructor(
 
     override fun onStart() {
         super.onStart()
-        val readStoragePermission = Manifest.permission.READ_EXTERNAL_STORAGE
+        val readStoragePermission = getRequiredPermissionByType()
         if (!hasPermission(readStoragePermission)) {
             requestPermission(readStoragePermission)
             return
         }
         loadFiles()
+    }
+
+    /**
+     * Get required permission by file type
+     *
+     * @return the permission
+     */
+    private fun getRequiredPermissionByType() : String {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            return when(fileType) {
+                FileType.AUDIO -> Manifest.permission.READ_MEDIA_AUDIO
+                FileType.VIDEO -> Manifest.permission.READ_MEDIA_VIDEO
+                FileType.IMAGE -> Manifest.permission.READ_MEDIA_IMAGES
+            }
+        }
+        return Manifest.permission.READ_EXTERNAL_STORAGE
     }
 
     override fun show(manager: FragmentManager, tag: String?) {
