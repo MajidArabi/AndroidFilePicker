@@ -13,7 +13,7 @@ internal class FilesPagingSource(
 ) : PagingSource<Int, Media>() {
 
     // the initial load size for the first page may be different from the requested size
-    var initialLoadSize: Int = 0
+    private var initialLoadSize: Int = 0
 
     override fun getRefreshKey(state: PagingState<Int, Media>): Int? =
         state.anchorPosition?.let { anchorPosition ->
