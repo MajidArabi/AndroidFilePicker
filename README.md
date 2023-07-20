@@ -1,5 +1,5 @@
-[![Jitpack](https://jitpack.io/v/MajidArabi/AndroidFilePicker.svg)](https://jitpack.io/#MajidArabi/AndroidFilePicker)
-[![Downloads](https://jitpack.io/v/MajidArabi/androidfilepicker/month.svg)](https://jitpack.io/#MajidArabi/androidfilepicker)
+[![Latest Release](https://jitpack.io/v/MajidArabi/AndroidFilePicker.svg)](https://jitpack.io/#MajidArabi/AndroidFilePicker)
+[![Downloads](https://jitpack.io/v/MajidArabi/AndroidFilePicker/month.svg)](https://jitpack.io/#MajidArabi/AndroidFilePicker)
 [![Stars](https://img.shields.io/github/stars/MajidArabi/AndroidFilePicker)](https://github.com/MajidArabi/AndroidFilePicker/stargazers)
 [![API](https://img.shields.io/badge/API-21%2B-blue.svg?style=flat)](https://android-arsenal.com/api?level=21)
 [![ktlint](https://img.shields.io/badge/code%20style-%E2%9D%A4-FF4081.svg)](https://ktlint.github.io/)
@@ -38,6 +38,8 @@ Step 1. Add it in your root build.gradle at the end of repositories:
 	}
   
 Step 2. Add the dependency
+
+**Latest Version** : [![Version](https://jitpack.io/v/MajidArabi/AndroidFilePicker.svg)](https://jitpack.io/#MajidArabi/AndroidFilePicker)
 
 	dependencies {
 	        implementation 'com.github.majidarabi:AndroidFilePicker:$LATEST_VERSION'
