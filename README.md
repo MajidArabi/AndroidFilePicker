@@ -20,6 +20,11 @@
  - Show file directory
  - Show file size
 
+## Donate
+
+**BTC**
+ 1KFvFt3ZvGbxSZpz28XUiqzgWYmdvbaHvo
+
 ## Screenshots
 
 | Image | Video | Audio
