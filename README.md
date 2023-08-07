@@ -20,10 +20,11 @@
  - Show file directory
  - Show file size
 
-## Donate
+#Donate
 
-**BTC**
- 1KFvFt3ZvGbxSZpz28XUiqzgWYmdvbaHvo
+**BTC** 
+  
+         1KFvFt3ZvGbxSZpz28XUiqzgWYmdvbaHvo
 
 ## Screenshots
 
