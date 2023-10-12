@@ -1,9 +1,11 @@
-[![Latest Release](https://jitpack.io/v/MajidArabi/AndroidFilePicker.svg)](https://jitpack.io/#MajidArabi/AndroidFilePicker)
-[![Downloads](https://jitpack.io/v/MajidArabi/AndroidFilePicker/month.svg)](https://jitpack.io/#MajidArabi/AndroidFilePicker)
+![Latest release](https://img.shields.io/github/v/release/majidarabi/androidfilepicker?color=%2308c94d)
+![Code size in bytes](https://img.shields.io/github/languages/code-size/majidarabi/androidfilepicker)
 [![Stars](https://img.shields.io/github/stars/MajidArabi/AndroidFilePicker)](https://github.com/MajidArabi/AndroidFilePicker/stargazers)
+[![Downloads](https://jitpack.io/v/MajidArabi/AndroidFilePicker/month.svg)](https://jitpack.io/#MajidArabi/AndroidFilePicker)
 [![API](https://img.shields.io/badge/API-21%2B-blue.svg?style=flat)](https://android-arsenal.com/api?level=21)
 [![ktlint](https://img.shields.io/badge/code%20style-%E2%9D%A4-FF4081.svg)](https://ktlint.github.io/)
 [![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
+
 
 ## Simple, Powerful and Beautiful Android Image/Video/Audio Picker 😎
 **Features** 😍
@@ -45,7 +47,7 @@ Step 1. Add it in your root build.gradle at the end of repositories:
   
 Step 2. Add the dependency
 
-**Latest Version** : [![Version](https://jitpack.io/v/MajidArabi/AndroidFilePicker.svg)](https://jitpack.io/#MajidArabi/AndroidFilePicker)
+***Latest Version*** : ![Latest release](https://img.shields.io/github/v/release/majidarabi/androidfilepicker?color=%2308c94d)
 
 	dependencies {
 	        implementation 'com.github.majidarabi:AndroidFilePicker:$LATEST_VERSION'
@@ -98,3 +100,12 @@ Step 2. Add the dependency
 - [Telegram](https://t.me/one_developer)
 - [Site](http://one-developer.ir)
 - [Email](mailto:majidarabi73@gmail.com)
+
+## Thanks for your support !
+**Stargazers**
+
+[![Stargazers repo roster for @MajidArabi/AndroidFilePicker](https://reporoster.com/stars/dark/MajidArabi/AndroidFilePicker)](https://github.com/MajidArabi/AndroidFilePicker/stargazers)
+
+**Forkers**
+
+[![Forkers repo roster for @MajidArabi/AndroidFilePicker](https://reporoster.com/forks/dark/MajidArabi/AndroidFilePicker)](https://github.com/MajidArabi/AndroidFilePicker/network/members)
