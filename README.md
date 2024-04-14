@@ -50,7 +50,7 @@ Step 2. Add the dependency
 ***Latest Version*** : ![Latest release](https://img.shields.io/github/v/release/majidarabi/androidfilepicker?color=%2308c94d)
 
 	dependencies {
-	        implementation 'com.github.majidarabi:AndroidFilePicker:$LATEST_VERSION'
+	 	implementation("com.github.MajidArabi:AndroidFilePicker:$LATEST_VERSION")
 	}
 
 ## Usage
